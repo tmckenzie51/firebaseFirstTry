@@ -339,3 +339,162 @@
 [info] i  hosting: Serving hosting files from: public
 [info] ✔  hosting: Local server: http://localhost:5000
 
+[debug] [2017-08-29T20:22:50.842Z] ----------------------------------------------------------------------
+[debug] [2017-08-29T20:22:50.846Z] Command:      /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2017-08-29T20:22:50.847Z] CLI Version:  3.9.1
+[debug] [2017-08-29T20:22:50.847Z] Platform:     darwin
+[debug] [2017-08-29T20:22:50.847Z] Node Version: v7.10.0
+[debug] [2017-08-29T20:22:50.849Z] Time:         Tue Aug 29 2017 15:22:50 GMT-0500 (EST)
+[debug] [2017-08-29T20:22:50.849Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-08-29T20:22:50.889Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-08-29T20:22:50.890Z] > authorizing via signed-in user
+[debug] [2017-08-29T20:22:50.893Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-08-29T20:22:50.893Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/_Q4-a7OtaifDxy40kDI6cNfUjgDN8rpUwqa85MKsRhI',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Tue Aug 29 2017 15:22:50 GMT-0500 (EST)
+[debug] [2017-08-29T20:22:51.098Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-29T20:22:51.134Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fir-firsttry-2c973  
+ Tue Aug 29 2017 15:22:51 GMT-0500 (EST)
+[debug] [2017-08-29T20:22:52.095Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-29T20:22:52.096Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fir-firsttry-2c973/tokens  
+ Tue Aug 29 2017 15:22:52 GMT-0500 (EST)
+[debug] [2017-08-29T20:22:55.255Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/tiffanymckenzie/Desktop/Firebase first try'...
+[info] 
+[debug] [2017-08-29T20:22:55.260Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-firsttry-2c973  
+ Tue Aug 29 2017 15:22:55 GMT-0500 (EST)
+[debug] [2017-08-29T20:22:55.853Z] <<< HTTP RESPONSE 200
+[debug] [2017-08-29T20:22:55.854Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/802135370325/clients/_:getWebAppConfig  
+ Tue Aug 29 2017 15:22:55 GMT-0500 (EST)
+[debug] [2017-08-29T20:22:56.384Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] ✔  hosting: Local server: http://localhost:5000
+
+[debug] [2017-09-11T17:22:54.168Z] ----------------------------------------------------------------------
+[debug] [2017-09-11T17:22:54.170Z] Command:      /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2017-09-11T17:22:54.170Z] CLI Version:  3.9.1
+[debug] [2017-09-11T17:22:54.170Z] Platform:     darwin
+[debug] [2017-09-11T17:22:54.170Z] Node Version: v7.10.0
+[debug] [2017-09-11T17:22:54.171Z] Time:         Mon Sep 11 2017 12:22:54 GMT-0500 (EST)
+[debug] [2017-09-11T17:22:54.171Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-09-11T17:22:54.194Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-09-11T17:22:54.195Z] > authorizing via signed-in user
+[debug] [2017-09-11T17:22:54.198Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-09-11T17:22:54.198Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/_Q4-a7OtaifDxy40kDI6cNfUjgDN8rpUwqa85MKsRhI',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Mon Sep 11 2017 12:22:54 GMT-0500 (EST)
+[debug] [2017-09-11T17:22:54.408Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-11T17:22:54.427Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fir-firsttry-2c973  
+ Mon Sep 11 2017 12:22:54 GMT-0500 (EST)
+[debug] [2017-09-11T17:22:54.922Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-11T17:22:54.923Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fir-firsttry-2c973/tokens  
+ Mon Sep 11 2017 12:22:54 GMT-0500 (EST)
+[debug] [2017-09-11T17:22:55.569Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/tiffanymckenzie/Desktop/Firebase first try'...
+[info] 
+[debug] [2017-09-11T17:22:55.572Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-firsttry-2c973  
+ Mon Sep 11 2017 12:22:55 GMT-0500 (EST)
+[debug] [2017-09-11T17:22:55.905Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-11T17:22:55.906Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/802135370325/clients/_:getWebAppConfig  
+ Mon Sep 11 2017 12:22:55 GMT-0500 (EST)
+[debug] [2017-09-11T17:22:56.528Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] ✔  hosting: Local server: http://localhost:5000
+
+[debug] [2017-09-11T18:14:10.337Z] Error: socket hang up
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2017-09-11T18:14:10.339Z] Error: socket hang up
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2017-09-11T18:14:10.339Z] Error: socket hang up
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2017-09-11T18:14:10.340Z] Error: socket hang up
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2017-09-11T18:14:10.340Z] Error: socket hang up
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2017-09-11T18:14:10.341Z] Error: socket hang up
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2017-09-11T18:14:10.341Z] Error: socket hang up
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2017-09-11T18:14:10.341Z] Error: socket hang up
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2017-09-11T18:15:33.362Z] ----------------------------------------------------------------------
+[debug] [2017-09-11T18:15:33.364Z] Command:      /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2017-09-11T18:15:33.365Z] CLI Version:  3.9.1
+[debug] [2017-09-11T18:15:33.365Z] Platform:     darwin
+[debug] [2017-09-11T18:15:33.365Z] Node Version: v7.10.0
+[debug] [2017-09-11T18:15:33.366Z] Time:         Mon Sep 11 2017 13:15:33 GMT-0500 (EST)
+[debug] [2017-09-11T18:15:33.366Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-09-11T18:15:33.382Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-09-11T18:15:33.383Z] > authorizing via signed-in user
+[debug] [2017-09-11T18:15:33.385Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-09-11T18:15:33.385Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/_Q4-a7OtaifDxy40kDI6cNfUjgDN8rpUwqa85MKsRhI',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Mon Sep 11 2017 13:15:33 GMT-0500 (EST)
+[debug] [2017-09-11T18:15:43.588Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-11T18:15:43.603Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fir-firsttry-2c973  
+ Mon Sep 11 2017 13:15:43 GMT-0500 (EST)
+[debug] [2017-09-11T18:15:45.828Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-11T18:15:45.829Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fir-firsttry-2c973/tokens  
+ Mon Sep 11 2017 13:15:45 GMT-0500 (EST)
+[debug] [2017-09-11T18:15:46.885Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/tiffanymckenzie/Desktop/Firebase first try'...
+[info] 
+[debug] [2017-09-11T18:15:46.890Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-firsttry-2c973  
+ Mon Sep 11 2017 13:15:46 GMT-0500 (EST)
+[debug] [2017-09-11T18:15:51.200Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-11T18:15:51.201Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/802135370325/clients/_:getWebAppConfig  
+ Mon Sep 11 2017 13:15:51 GMT-0500 (EST)
+[debug] [2017-09-11T18:16:06.810Z] Error: socket hang up
+[error] 
+[error] Error: Server Error. socket hang up
+[debug] [2017-09-11T18:16:27.608Z] ----------------------------------------------------------------------
+[debug] [2017-09-11T18:16:27.611Z] Command:      /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2017-09-11T18:16:27.611Z] CLI Version:  3.9.1
+[debug] [2017-09-11T18:16:27.611Z] Platform:     darwin
+[debug] [2017-09-11T18:16:27.611Z] Node Version: v7.10.0
+[debug] [2017-09-11T18:16:27.612Z] Time:         Mon Sep 11 2017 13:16:27 GMT-0500 (EST)
+[debug] [2017-09-11T18:16:27.612Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-09-11T18:16:27.630Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-09-11T18:16:27.632Z] > authorizing via signed-in user
+[debug] [2017-09-11T18:16:27.636Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fir-firsttry-2c973  
+ Mon Sep 11 2017 13:16:27 GMT-0500 (EST)
+[debug] [2017-09-11T18:16:28.093Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-11T18:16:28.094Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fir-firsttry-2c973/tokens  
+ Mon Sep 11 2017 13:16:28 GMT-0500 (EST)
+[debug] [2017-09-11T18:16:28.516Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/tiffanymckenzie/Desktop/Firebase first try'...
+[info] 
+[debug] [2017-09-11T18:16:28.520Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-firsttry-2c973  
+ Mon Sep 11 2017 13:16:28 GMT-0500 (EST)
+[debug] [2017-09-11T18:16:28.817Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-11T18:16:28.817Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/802135370325/clients/_:getWebAppConfig  
+ Mon Sep 11 2017 13:16:28 GMT-0500 (EST)
+[debug] [2017-09-11T18:16:29.506Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] ✔  hosting: Local server: http://localhost:5000
+

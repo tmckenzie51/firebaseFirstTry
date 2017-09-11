@@ -20,8 +20,6 @@ let currentY = null; //currentY stays constant throughout the entire screen
   class createCommunity {
 
     constructor(containerElement) {
-
-      console.log( 'got da community screen');
       //define cosntructor params
       this.containerElement = containerElement;
 
@@ -82,6 +80,7 @@ let currentY = null; //currentY stays constant throughout the entire screen
 
       //creating and styling the concentratic communities
       const id = '#comm'+this.selectedCommunities.length;
+      console.log('innercomm id : '+ id);
       const innercomm = document.querySelector(id);
       innercomm.textContent = firstCommunity.trim();
       innercomm.style.top ='calc(38vh + ' +currentY+'px)';
@@ -95,11 +94,6 @@ let currentY = null; //currentY stays constant throughout the entire screen
       const commName = document.createElement('p');
       button.appendChild(commName);
       button.textContent = firstCommunity.trim();
-      button.addEventListener('click',this.removeCommunity);
-      const closeIcon = document.createElement('i');
-      closeIcon.classList.add('close', 'material-icons');
-      closeIcon.textContent = 'close';
-      button.appendChild(closeIcon);
       button.classList.remove('inactive');
       button.classList.add('chip','removeButton')
       chipsContainer.appendChild(button);
@@ -126,7 +120,7 @@ let currentY = null; //currentY stays constant throughout the entire screen
     for(const suggestion of suggestions ){
       const suggestionDiv = document.createElement('div');
       suggestionDiv.id = 'suggestionDiv';
-      suggestionDiv.classList.add('suggestions');
+      suggestionDiv.classList.add('innerCommSuggestions');
       suggestionDiv.addEventListener('click', this.chooseInnerCommunities);
       const text = document.createTextNode(suggestion);
       suggestionDiv.appendChild(text);
@@ -179,7 +173,7 @@ let currentY = null; //currentY stays constant throughout the entire screen
     button.classList.add('chip', 'removeButton'); //added removebutton here to match selectBigComm
     chipsContainer.appendChild(button);
 
-    innercomm.id = community; //test
+    innercomm.id = community; //todo :  fix this --> causing errors in redo step when startover clicked
     innercomm.classList.remove('inactive');
     scaleFactor --;
     console.log(this.selectedCommunities);
@@ -192,7 +186,6 @@ let currentY = null; //currentY stays constant throughout the entire screen
     //remove bad concentric community
     const badCommText = event.currentTarget.textContent; //returns commName+'close'
     var  badCommName= badCommText.replace(/close/i,'');
-    console.log(badCommName);
     const badComm = document.getElementById(badCommName); //need to remove the 'close' at the end of badcomm
     badComm.classList.add('inactive');
 
@@ -230,37 +223,60 @@ let currentY = null; //currentY stays constant throughout the entire screen
   }
 
   startOver(event){
+    //makes all concentric communities display = none / inactive
     for(var i = 0; i < this.selectedCommunities.length; i++){
       const commName = this.selectedCommunities[i];
       const badComm = document.getElementById(commName);
-      badComm.classList.add('inactive');
+      badComm.classList.add('inactive'); //removes concentric comunity from the screen
     }
-    this.selectedCommunities = [];
-    console.log(this.selectedCommunities);
-    // const suggestions = document.querySelector('#suggestionDiv'); //getElementsByClassName
-    // suggestionDiv.remove();
 
-    const chips = document.getElementsByClassName('chip'); //get by classname
-    console.log(chips);
-    chips[0].remove();
-    for (let i = 0; i < 4; i++){
-       chips[0].remove(); //todo :  maybe have to remove these instead of make inacive since the child chips are created here
+    //rename ID of all innerComms to what they were in the beginning
+    const firstConcentricComm = document.getElementById(this.selectedCommunities[0]);
+    let counter = 1;
+    for(const selectedComm of this.selectedCommunities){
+      const concentricComm = document.getElementById(selectedComm);
+      concentricComm.id = 'comm'+counter;
+      console.log('renamed id'+concentricComm.id);
+      counter++;
+    }
+
+    this.selectedCommunities = []; //empties this.selectedcommunities array
+    console.log(this.selectedCommunities);
+
+
+
+    //removes chips from the screen
+    const chips = document.getElementsByClassName('chip');
+    let chipsLength  =  chips.length;
+    for (let i = 0; i < chipsLength; i++){
+      chips[0].remove();
      }
 
-    //remove these buttons because they will be recreated
+    //remove startOver and Done buttons
     const startOverButton = document.getElementById('startOverButton');
     startOverButton.remove();
     const doneButton = document.getElementById('doneButton');
     doneButton.remove();
 
-    //revert to first header//change user instructions in header
+    //changes user instructions in header
     const header = document.querySelector('#create-community-screen h5');
     header.textContent = ("Choose your wider community. This is the broad area in which you'd like to connect with others");
 
+    //remove suggested InnerCommunities
+     const suggestions= document.getElementsByClassName('innerCommSuggestions');
+     let suggestionsLength = suggestions.length;
+     for(let i = 0; i < suggestionsLength; i++){
+       suggestions[0].remove();
+     }
+
     //display bigCommunities
     for (let i = 0; i < this.bigCommunities.length; i++) {
-      this.bigCommunities[i].style.display = 'inline-block';  //todo: maybe change this to add inactive classList
+      this.bigCommunities[i].style.display = 'inline-block';
+      //todo: check event listeners
     }
+
+    //repleneish scale factor
+    scaleFactor = 4;
 }
 
 //Saves user ingo to firebase real-time database

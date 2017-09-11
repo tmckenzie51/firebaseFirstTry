@@ -163,3 +163,15 @@ body{
 #chipsInnerContainer{
   width: 1000px;
 }
+
+.innerCommSuggestions{
+  overflow-x: scroll;
+  width: 80px;
+  height: 80px;
+  border-radius: 50px;
+  text-align: center;
+  background: pink;
+  margin-bottom: 10px;
+  line-height: 50px;
+  margin-top: 0px;
+}
