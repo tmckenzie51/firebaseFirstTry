@@ -205,6 +205,30 @@
 
            <div id ="bigCommID">
              <div id = "bigCommInnerContainer">
+
+              <!-- Modal view -->
+               <a id = "createCustomCommunity" class = "modal-trigger" href="#modal1"></a>
+
+                 <!-- Modal Structure -->
+               <div id="modal1" class="modal">
+                 <div class="modal-content">
+                   <h4>Create Your Own Custom Inner Communtiy</h4>
+                   <p>Enter the name of your inner community.</p>
+
+                  <!-- Custom Community Form todo: fix - datalenth nor autocomplete not working -->
+                  <div class="input-field col s6">
+                    <input placeholder="Woodwork" id="Custom-Community" type="text" data-length="40" class="autocomplete" >
+                    <label for="Custom-Community">Custom Community</label>
+                  </div>
+
+                 </div>
+                <div class="modal-footer">
+                  <a id = "labeledCustomCommunity" href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Create</a>
+                </div>
+              </div>
+
+              <!-- end of modal test -->
+
            <div class = "suggestions bigCommunity waves-effect waves-light deep-orange accent-1" id = "bigComm1"> <p>Wellness</p></div>
            <div class = "suggestions bigCommunity waves-effect waves-light deep-orange accent-1" id = "bigComm2"><p>Academics</p></div>
            <div class = "suggestions bigCommunity waves-effect waves-light deep-orange accent-1" id = "bigComm3"><p>Relationships</p></div>

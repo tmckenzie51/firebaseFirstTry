@@ -23,13 +23,21 @@ let currentY = null; //currentY stays constant throughout the entire screen
       //define cosntructor params
       this.containerElement = containerElement;
 
+      //modal test todo: remove
+      this.openModalView = this.openModalView.bind(this);
+      this.createCustomCommunity = this.createCustomCommunity.bind(this);
+      const submittedCustomCommunity =  document.querySelector('#labeledCustomCommunity');
+      submittedCustomCommunity.addEventListener('click',this.createCustomCommunity);
+      this.displayConcentricCommunities = this.displayConcentricCommunities.bind(this);
+
+
       //array declarations
       this.user = firebase.auth().currentUser;
       this.selectedCommunities = [];
-      this.wellnessSuggestions = ['Mental', 'Insurance', 'Fitness','+','Mental', 'Insurance', 'Fitness','+'];
-      this.academicsSuggestions = ['Science', 'Humanities', 'Arts','+','Science', 'Humanities', 'Arts','+',];
-      this.RelationshipSuggestions = ['Romantic', 'Break-up', 'Family','+','Romantic', 'Break-up', 'Family','+'];
-      this.hobbiesSuggestions = ['Cycling','Basketball','Poetry','+','Cycling','Basketball','Poetry','+'];
+      this.wellnessSuggestions = ['Mental', 'Insurance', 'Fitness','Mental', 'Insurance', 'Fitness',];
+      this.academicsSuggestions = ['Science', 'Humanities', 'Arts','Science', 'Humanities', 'Arts'];
+      this.RelationshipSuggestions = ['Romantic', 'Break-up', 'Family','Romantic', 'Break-up', 'Family'];
+      this.hobbiesSuggestions = ['Cycling','Basketball','Poetry','Cycling','Basketball','Poetry'];
       this.suggestions = [this.wellnessSuggestions,this.academicsSuggestions,this.RelationshipSuggestions,this.hobbiesSuggestions];
       this.colors=['pink','aquamarine','MediumPurple', 'YellowGreen'];
       this.bigCommunities = document.getElementsByClassName('bigCommunity');
@@ -67,6 +75,38 @@ let currentY = null; //currentY stays constant throughout the entire screen
       const text = 'Welcome '+this.name+'!';
       header.textContent=text;
       }
+
+openModalView(event){
+  $('.modal').modal();
+  $('#modal1').modal('open');
+  $('input#Custom-Community').characterCounter(); //todo: fix the characterCounter
+
+  //or by click on trigger using  $('.trigger-modal').modal();
+
+ //autocomplete code
+   $('input.autocomplete').autocomplete({
+   data: {
+     "Apple": null,
+     "Microsoft": null,
+     "Google": 'https://placehold.it/250x250'
+   },
+   limit: 20, // The max amount of results that can be shown at once. Default: Infinity.
+   onAutocomplete: function(val) {
+     // Callback function when value is autcompleted.
+   },
+   minLength: 1, // The minimum length of the input for the autocomplete to start. Default: 1.
+ });
+
+}
+
+createCustomCommunity(event){
+
+   //get value from input
+   let input = document.getElementById("Custom-Community").value;
+   console.log('custom community: '+input);
+   this.displayConcentricCommunities(input);
+}
+
 
     //Allows user to select a wide/first community
     selectBigCommunity(event){
@@ -111,12 +151,29 @@ let currentY = null; //currentY stays constant throughout the entire screen
     }
       //change user instructions in header
       const header = document.querySelector('#create-community-screen h5');
-      header.textContent = ('Choose your inner communities and click "Done" when your Community is just right for you!');
+      header.textContent = ('Choose and create your own inner communities and click "Done" when your Community is just right for you!');
     }
 
   //displays suggested inner communities
   displaySuggestions(suggestions){
     const suggestionId = document.querySelector('#bigCommInnerContainer');
+
+    //creates the 'Create Custom Community' button which triggers the createCustomCommunity function on click
+    const suggestionDiv = document.createElement('div');
+    suggestionDiv.id = 'suggestionDiv';
+    suggestionDiv.classList.add('innerCommSuggestions');
+    const icon = document.createElement('i');
+    icon.classList.add("material-icons", 'large');
+    icon.textContent = 'add_circle_outline';
+    suggestionDiv.appendChild(icon);
+    suggestionDiv.style.display = 'inline-block';
+    suggestionDiv.style.background = '#e0f2f1';
+    const modalTrigger = document.querySelector('#createCustomCommunity');
+    modalTrigger.appendChild(suggestionDiv)
+    modalTrigger.addEventListener('click', this.openModalView);
+    suggestionId.appendChild(modalTrigger);
+
+    //creates other suggestions from suggestions array
     for(const suggestion of suggestions ){
       const suggestionDiv = document.createElement('div');
       suggestionDiv.id = 'suggestionDiv';
@@ -127,7 +184,6 @@ let currentY = null; //currentY stays constant throughout the entire screen
       suggestionDiv.style.display = 'inline-block';
       suggestionId.appendChild(suggestionDiv);
     }
-
   }
 
   //allows user to choose an innner community
@@ -148,11 +204,20 @@ let currentY = null; //currentY stays constant throughout the entire screen
     const innerCommunity = event.currentTarget;
     innerCommunity.removeEventListener('click', this.chooseInnerCommunities);
     const community = innerCommunity.textContent;
+
+    //displays concentric communities
+    this.displayConcentricCommunities(community);
+
+  }
+
+  displayConcentricCommunities(community){
     this.selectedCommunities.push(community);
+
+
 
     //inner community styling
     const innercomm = document.querySelector('#comm'+this.selectedCommunities.length)
-    innercomm.textContent = community; //maybe change back to innercomm
+    innercomm.textContent = community; // todo: change this for when custom community is being created
     innercomm.style.top ='calc(38vh + ' +currentY+'px)';
     innercomm.style.transform = 'scale('+scaleFactor+','+scaleFactor+')';
     innercomm.style.color = this.colors[scaleFactor];
@@ -173,7 +238,7 @@ let currentY = null; //currentY stays constant throughout the entire screen
     button.classList.add('chip', 'removeButton'); //added removebutton here to match selectBigComm
     chipsContainer.appendChild(button);
 
-    innercomm.id = community; //todo :  fix this --> causing errors in redo step when startover clicked
+    innercomm.id = community;
     innercomm.classList.remove('inactive');
     scaleFactor --;
     console.log(this.selectedCommunities);
@@ -305,7 +370,5 @@ saveCommunity(event){
     //this.matchScreen = new matchScreen(matchScreenElement);
   //  matchScreenElement.classList.remove('inactive');
   }
-
-
 
   }
