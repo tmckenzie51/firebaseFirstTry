@@ -1,16 +1,13 @@
-//add the on authStateChanged method here, for when you want ot load previous communities
-//also trigger method when user signs out
+//add the on authStateChanged method here /  check if user already exists
+  //if(user){
+    //load previous communities}
+  //else{ display registration page & send verification/welcome email}
 
-//handling user signout with authStateChanged method
-//if (sign in is Verified) {
 
 //Todo Later : load user's previous communities (perhaps use onAuthStateChanged here)
 //}
 
-//Todo: signoutBtn.addEventListener('click',this.singout / onAuthStateChanged);
 
-
-//var provider = new firebase.auth.GoogleAuthProvider(); //todo: ques - do we need this to be redeclared in this class?
 
 var database = firebase.database(); //database reference
 
@@ -23,7 +20,7 @@ let currentY = null; //currentY stays constant throughout the entire screen
       //define cosntructor params
       this.containerElement = containerElement;
 
-      //modal test todo: remove
+      // todo: organize properly here
       this.openModalView = this.openModalView.bind(this);
       this.createCustomCommunity = this.createCustomCommunity.bind(this);
       const submittedCustomCommunity =  document.querySelector('#labeledCustomCommunity');
@@ -31,8 +28,17 @@ let currentY = null; //currentY stays constant throughout the entire screen
       this.displayConcentricCommunities = this.displayConcentricCommunities.bind(this);
 
 
+      //todo: organize this
+      this.signOut = this.signOut.bind(this);
+      const signOutButtons =  document.getElementsByClassName('signOutButton');
+      for(const button of signOutButtons){
+        button.addEventListener('click',this.signOut);
+      }
+
+
+
       //array declarations
-      this.user = firebase.auth().currentUser;
+      //this.user = firebase.auth().currentUser; //todo: maybe get rid of this
       this.selectedCommunities = [];
       this.wellnessSuggestions = ['Mental', 'Insurance', 'Fitness','Mental', 'Insurance', 'Fitness',];
       this.academicsSuggestions = ['Science', 'Humanities', 'Arts','Science', 'Humanities', 'Arts'];
@@ -54,27 +60,29 @@ let currentY = null; //currentY stays constant throughout the entire screen
       this.removeCommunity = this.removeCommunity.bind(this);
       this.startOver = this.startOver.bind(this);
 
+
       //add event listeners
       for (const bigCommunity of this.bigCommunities){
           bigCommunity.addEventListener('click',this.selectBigCommunity);
       }
 
-      if (this.user !== null) {
-        console.log('got user');
-        //can also get proiverID : using profile.providerId
-        this.name = this.user.displayName;
-        console.log(this.name);
-        this.email = this.user.email;
-        this.photoUrl = this.user.photoURL;
-        //this.emailVerified = this.user.emailVerified;
-        this.uid = this.user.uid; //or we can use user.getToken
-        console.log(this.uid);
+      const header = document.querySelector('#create-community-screen h4');
+      const text = 'Welcome '+this.name+'!'; //todo: make this work or take it out
+      header.textContent=text;
+
       }
 
-      const header = document.querySelector('#create-community-screen h4');
-      const text = 'Welcome '+this.name+'!';
-      header.textContent=text;
-      }
+//todo: add a modal view here, 'are you sure you want to sign out ? ""'
+signOut(event){
+  firebase.auth().signOut().then(function() {
+// Sign-out successful.
+}).catch(function(error) {
+// An error happened.
+});
+const loginElement = document.querySelector('#loginScreen');
+this.containerElement.classList.add('inactive');
+loginElement.classList.remove('inactive');
+}
 
 openModalView(event){
   $('.modal').modal();
@@ -110,6 +118,7 @@ createCustomCommunity(event){
 
     //Allows user to select a wide/first community
     selectBigCommunity(event){
+
       this.createStartOverButton();
       $('#communityCreator h5').remove();
       const bigCommunity = event.currentTarget;
@@ -144,7 +153,7 @@ createCustomCommunity(event){
 
       //show inner community suggestions and remove big communities from screen
       for (let i = 0; i < this.bigCommunities.length; i++) {
-        this.bigCommunities[i].style.display = 'none';  //todo: change this to add inactive classList
+        this.bigCommunities[i].style.display = 'none';
         if(this.bigCommunities[i].textContent.trim() === firstCommunity.trim()){
           this.displaySuggestions(this.suggestions[i]); //to display the correct suggestions
       }
@@ -152,6 +161,9 @@ createCustomCommunity(event){
       //change user instructions in header
       const header = document.querySelector('#create-community-screen h5');
       header.textContent = ('Choose and create your own inner communities and click "Done" when your Community is just right for you!');
+
+
+
     }
 
   //displays suggested inner communities
@@ -217,7 +229,7 @@ createCustomCommunity(event){
 
     //inner community styling
     const innercomm = document.querySelector('#comm'+this.selectedCommunities.length)
-    innercomm.textContent = community; // todo: change this for when custom community is being created
+    innercomm.textContent = community;
     innercomm.style.top ='calc(38vh + ' +currentY+'px)';
     innercomm.style.transform = 'scale('+scaleFactor+','+scaleFactor+')';
     innercomm.style.color = this.colors[scaleFactor];
@@ -251,9 +263,11 @@ createCustomCommunity(event){
     //remove bad concentric community
     const badCommText = event.currentTarget.textContent; //returns commName+'close'
     var  badCommName= badCommText.replace(/close/i,'');
-    const badComm = document.getElementById(badCommName); //need to remove the 'close' at the end of badcomm
+    const badComm = document.getElementById(badCommName);
     badComm.classList.add('inactive');
-
+    badComm.id = 'comm'+this.selectedCommunities.length; //todo: fix bug where there may now be 2 innercoms with the same name
+    console.log(badComm.id);
+    scaleFactor++; //todo: fix bug where there are more than one innercoms with the same scaleFactor
     //remove badCommunity from selectedCommunities
     var search_term = badCommName;
     for (var i=this.selectedCommunities.length-1; i>=0; i--) {
@@ -262,6 +276,8 @@ createCustomCommunity(event){
         break;
       }
     }
+
+
     console.log(this.selectedCommunities);
   }
 
@@ -273,6 +289,7 @@ createCustomCommunity(event){
     const doneDiv = document.createElement('div');
     doneDiv.appendChild(btn);
     doneDiv.id = 'doneButton';
+    doneDiv.addEventListener('click',this.saveCommunity);
     this.containerElement.appendChild(doneDiv);
   }
 
@@ -337,38 +354,52 @@ createCustomCommunity(event){
     //display bigCommunities
     for (let i = 0; i < this.bigCommunities.length; i++) {
       this.bigCommunities[i].style.display = 'inline-block';
-      //todo: check event listeners
     }
 
     //repleneish scale factor
     scaleFactor = 4;
 }
 
-//Saves user ingo to firebase real-time database
+//Saves user info to firebase real-time database
 saveCommunity(event){
-  console.log('enetered saveCommunity');
-  event.preventDefault();
-    firebase.database().ref('users/' + this.uid).set({
-      username: this.name,
-      email: this.email,
-      profile_picture : this.photoUrl,
-      communities: this.selectedCommunities
-    });
-    console.log('saved');
+
+const user =  firebase.auth().currentUser;
+
+  //updating the communities
+  var communityData = {
+    newCommunity: this.selectedCommunities
+  };
+
+  // Get a key for a newly created community.
+  var newCommunityKey = firebase.database().ref().child('communities').push().key;
+
+  // Write the newCommunity's data to user's communities list.
+  var updates = {};
+  updates['/user-communities/' + user.uid + '/' + newCommunityKey] = communityData;
+
+  console.log('returning to database');
+  this.hide();
+  return firebase.database().ref().update(updates);
+
+
+
+
   //dispatch custom event to match screen
 //  const myEvent = new CustomEvent('submitted', {detail: submitInfo});
   //document.dispatchEvent(myEvent);
-  this.hide();
+
+
+
 }
 
 
 
   hide(){
+    console.log('showing match screen');
     this.containerElement.classList.add('inactive');
     //show match screen
-    //const matchScreenElement  =  document.querySelector('#match-screen');
-    //this.matchScreen = new matchScreen(matchScreenElement);
-  //  matchScreenElement.classList.remove('inactive');
+    const matchScreenElement  =  document.querySelector('#match-screen');
+    matchScreenElement.classList.remove('inactive');
   }
 
   }

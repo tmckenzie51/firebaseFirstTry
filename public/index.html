@@ -11,6 +11,7 @@
 
       <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
+      <script src = "scripts/match-screen.js" defer></script>
       <script src = "scripts/create-community.js" defer></script>
       <script src = "scripts/login-screen.js" defer></script>
       <script src = "scripts/app.js" defer></script>
@@ -68,22 +69,17 @@
    </head>
 
    <body data-gr-c-s-loaded="true">
+
       <section id = "loginScreen">
-       <nav role="navigation">
-         <div class="nav-wrapper container">
+        <!-- side nav -->
+        <nav role="navigation">
+          <div class="nav-wrapper container">
 
-           <img style="width:70px;height:70px;" src="http://www.webster.edu/images/globalmarketingcommunications/diversity-tree-2014.png"</img>
+            <a id="logo-container" href="#" class="brand-logo">Community</a>
+            <img style="width:10%;height:100%;" src="http://www.webster.edu/images/globalmarketingcommunications/diversity-tree-2014.png"</img>
+          </div>
+        </nav>
 
-           <ul class="right hide-on-med-and-down">
-             <li><a href="#">About Community</a></li> <!--toDo: change navbar link -->
-           </ul>
-
-           <ul id="nav-mobile" class="side-nav" style="transform:translateX(-100%);">
-             <li><a href="#">About Community</a></li> <!--toDo: change navbar link -->
-           </ul>
-           <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a> <!--toDo: change this href link-->
-         </div>
-       </nav>
 
 
 
@@ -180,23 +176,25 @@
        </footer>
      </section>
 
+     <!-- side nav -->
+     <nav id = "header" class = 'inactive' role="navigation">
+       <div class="nav-wrapper container">
+
+         <a id="logo-container" href="#" class="brand-logo">Community</a>
+         <img style="width:10%;height:100%;" src="http://www.webster.edu/images/globalmarketingcommunications/diversity-tree-2014.png"</img>
+
+         <ul class="right hide-on-med-and-down">
+           <li><a class = "signOutButton" href="#">Sign Out</a></li> <!--toDo: change navbar link -->
+         </ul>
+
+         <ul id="slide-out" class="side-nav">
+           <li><a class= "signOutButton" href="#">Sign Out</a></li> <!--toDo: change navbar link -->
+         </ul>
+         <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a> <!--toDo: change this href link-->
+       </div>
+     </nav>
+
      <section class="inactive" id = "create-community-screen">
-       <nav role="navigation">
-         <div class="nav-wrapper container">
-
-           <a id="logo-container" href="#" class="brand-logo">Community</a>
-           <img style="width:10%;height:100%;" src="http://www.webster.edu/images/globalmarketingcommunications/diversity-tree-2014.png"</img>
-
-           <ul class="right hide-on-med-and-down">
-             <li><a href="#">Sign Out</a></li> <!--toDo: change navbar link -->
-           </ul>
-
-           <ul id="nav-mobile" class="side-nav">
-             <li><a href="#">Sign Out</a></li> <!--toDo: change navbar link -->
-           </ul>
-           <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a> <!--toDo: change this href link-->
-         </div>
-       </nav>
 
        <h4 class=" inactive header center light-blue-text text-lighten-1"></h4>
        <h5 class="header center brown-text">Choose your wider community. This is the broad area in which you'd like to connect with others</h5>
@@ -257,6 +255,48 @@
 
       </section>
 
+      <section class="inactive" id = "match-screen">
+
+        <!-- side nav -->
+      <!--  <nav role="navigation">
+          <div class="nav-wrapper container">
+
+            <a id="logo-container" href="#" class="brand-logo">Community</a>
+            <img style="width:10%;height:100%;" src="http://www.webster.edu/images/globalmarketingcommunications/diversity-tree-2014.png"</img>
+
+            <ul class="right hide-on-med-and-down">
+              <li><a id = "matchScreenSignOut" href="#">Sign Out</a></li>
+            </ul>
+
+            <ul id="slide-out" class="side-nav">
+              <li><a  href="#matchScreenSignOut">Sign Out</a></li>
+            </ul>
+            <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+          </div>
+        </nav> -->
+
+        <h5>Here are your matches for today!</h5>
+
+        <!-- Match Card -->
+        <div class="row">
+        <div class="col s12 m4">
+          <div class="card">
+            <div class="card-image">
+              <img src="http://mattchen.co/img/members/tiffany.jpg">
+              <span class="card-title">Tiffany</span>
+            </div>
+            <div class="card-content">
+              <p>You guys match based on 3 out of 4 communities</p>
+            </div>
+            <div class="card-action">
+              <a id = "messageButton" href="#"><i class="material-icons">message</i>Message</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      </section>
+
 
 
     </section>
@@ -271,6 +311,20 @@
 
 
    </body>
+   <script>
+    //Mobile side nav
+    $(document).ready(function() {
+   $('.button-collapse').sideNav({
+    menuWidth: 300, // Default is 300
+    edge: 'left', // Choose the horizontal origin
+    closeOnClick: true, // Closes side-nav on <a> clicks, useful for Angular/Meteor
+    draggable: true // Choose whether you can drag to open on touch screens
+   });
+
+   });
+   </script>
+
+
 
    <script>
   window.fbAsyncInit = function() {

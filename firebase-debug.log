@@ -1,36 +1,104 @@
-[debug] [2017-09-12T18:17:57.261Z] ----------------------------------------------------------------------
-[debug] [2017-09-12T18:17:57.263Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
-[debug] [2017-09-12T18:17:57.264Z] CLI Version:   3.10.1
-[debug] [2017-09-12T18:17:57.264Z] Platform:      darwin
-[debug] [2017-09-12T18:17:57.264Z] Node Version:  v7.10.0
-[debug] [2017-09-12T18:17:57.265Z] Time:          Tue Sep 12 2017 13:17:57 GMT-0500 (EST)
-[debug] [2017-09-12T18:17:57.265Z] ----------------------------------------------------------------------
+[debug] [2017-09-14T22:01:53.992Z] ----------------------------------------------------------------------
+[debug] [2017-09-14T22:01:53.994Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2017-09-14T22:01:53.995Z] CLI Version:   3.10.1
+[debug] [2017-09-14T22:01:53.995Z] Platform:      darwin
+[debug] [2017-09-14T22:01:53.995Z] Node Version:  v7.10.0
+[debug] [2017-09-14T22:01:53.996Z] Time:          Thu Sep 14 2017 17:01:53 GMT-0500 (EST)
+[debug] [2017-09-14T22:01:53.996Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2017-09-12T18:17:57.281Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2017-09-12T18:17:57.282Z] > authorizing via signed-in user
-[debug] [2017-09-12T18:17:57.284Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2017-09-12T18:17:57.284Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/_Q4-a7OtaifDxy40kDI6cNfUjgDN8rpUwqa85MKsRhI',
+[debug] [2017-09-14T22:01:54.037Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-09-14T22:01:54.038Z] > authorizing via signed-in user
+[debug] [2017-09-14T22:01:54.041Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fir-firsttry-2c973  
+ Thu Sep 14 2017 17:01:54 GMT-0500 (EST)
+[debug] [2017-09-14T22:01:54.491Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-14T22:01:54.492Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fir-firsttry-2c973/tokens  
+ Thu Sep 14 2017 17:01:54 GMT-0500 (EST)
+[debug] [2017-09-14T22:01:55.138Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/tiffanymckenzie/firebaseFirstTry'...
+[info] 
+[debug] [2017-09-14T22:01:55.142Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-firsttry-2c973  
+ Thu Sep 14 2017 17:01:55 GMT-0500 (EST)
+[debug] [2017-09-14T22:01:55.426Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-14T22:01:55.428Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/802135370325/clients/_:getWebAppConfig  
+ Thu Sep 14 2017 17:01:55 GMT-0500 (EST)
+[debug] [2017-09-14T22:01:56.131Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] ✔  hosting: Local server: http://localhost:5000
+
+[debug] [2017-09-15T18:48:55.542Z] Error: socket hang up
+    at TLSSocket.onHangUp (_tls_wrap.js:1120:19)
+    at Object.onceWrapper (events.js:293:19)
+    at emitNone (events.js:91:20)
+    at TLSSocket.emit (events.js:188:7)
+    at endReadableNT (_stream_readable.js:975:12)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2017-09-15T18:48:55.566Z] Error: socket hang up
+    at TLSSocket.onHangUp (_tls_wrap.js:1120:19)
+    at Object.onceWrapper (events.js:293:19)
+    at emitNone (events.js:91:20)
+    at TLSSocket.emit (events.js:188:7)
+    at endReadableNT (_stream_readable.js:975:12)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2017-09-15T18:48:55.567Z] Error: socket hang up
+    at TLSSocket.onHangUp (_tls_wrap.js:1120:19)
+    at Object.onceWrapper (events.js:293:19)
+    at emitNone (events.js:91:20)
+    at TLSSocket.emit (events.js:188:7)
+    at endReadableNT (_stream_readable.js:975:12)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2017-09-15T18:48:55.568Z] Error: socket hang up
+    at TLSSocket.onHangUp (_tls_wrap.js:1120:19)
+    at Object.onceWrapper (events.js:293:19)
+    at emitNone (events.js:91:20)
+    at TLSSocket.emit (events.js:188:7)
+    at endReadableNT (_stream_readable.js:975:12)
+    at _combinedTickCallback (internal/process/next_tick.js:80:11)
+    at process._tickCallback (internal/process/next_tick.js:104:9)
+[error] 
+[error] Error: An unexpected error has occurred.
+[debug] [2017-09-15T18:54:57.517Z] ----------------------------------------------------------------------
+[debug] [2017-09-15T18:54:57.520Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2017-09-15T18:54:57.521Z] CLI Version:   3.10.1
+[debug] [2017-09-15T18:54:57.521Z] Platform:      darwin
+[debug] [2017-09-15T18:54:57.521Z] Node Version:  v7.10.0
+[debug] [2017-09-15T18:54:57.521Z] Time:          Fri Sep 15 2017 13:54:57 GMT-0500 (EST)
+[debug] [2017-09-15T18:54:57.522Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2017-09-15T18:54:57.565Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-09-15T18:54:57.566Z] > authorizing via signed-in user
+[debug] [2017-09-15T18:54:57.568Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-09-15T18:54:57.569Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/_Q4-a7OtaifDxy40kDI6cNfUjgDN8rpUwqa85MKsRhI',
   client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
   client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
   grant_type: 'refresh_token',
   scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
- Tue Sep 12 2017 13:17:57 GMT-0500 (EST)
-[debug] [2017-09-12T18:17:57.542Z] <<< HTTP RESPONSE 200
-[debug] [2017-09-12T18:17:57.558Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fir-firsttry-2c973  
- Tue Sep 12 2017 13:17:57 GMT-0500 (EST)
-[debug] [2017-09-12T18:17:58.169Z] <<< HTTP RESPONSE 200
-[debug] [2017-09-12T18:17:58.170Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fir-firsttry-2c973/tokens  
- Tue Sep 12 2017 13:17:58 GMT-0500 (EST)
-[debug] [2017-09-12T18:17:58.776Z] <<< HTTP RESPONSE 200
+ Fri Sep 15 2017 13:54:57 GMT-0500 (EST)
+[debug] [2017-09-15T18:54:57.794Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-15T18:54:57.810Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fir-firsttry-2c973  
+ Fri Sep 15 2017 13:54:57 GMT-0500 (EST)
+[debug] [2017-09-15T18:54:58.267Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-15T18:54:58.268Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fir-firsttry-2c973/tokens  
+ Fri Sep 15 2017 13:54:58 GMT-0500 (EST)
+[debug] [2017-09-15T18:54:59.034Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Serving from '/Users/tiffanymckenzie/firebaseFirstTry'...
 [info] 
-[debug] [2017-09-12T18:17:58.780Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-firsttry-2c973  
- Tue Sep 12 2017 13:17:58 GMT-0500 (EST)
-[debug] [2017-09-12T18:17:59.123Z] <<< HTTP RESPONSE 200
-[debug] [2017-09-12T18:17:59.123Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/802135370325/clients/_:getWebAppConfig  
- Tue Sep 12 2017 13:17:59 GMT-0500 (EST)
-[debug] [2017-09-12T18:17:59.703Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-15T18:54:59.038Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-firsttry-2c973  
+ Fri Sep 15 2017 13:54:59 GMT-0500 (EST)
+[debug] [2017-09-15T18:54:59.321Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-15T18:54:59.322Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/802135370325/clients/_:getWebAppConfig  
+ Fri Sep 15 2017 13:54:59 GMT-0500 (EST)
+[debug] [2017-09-15T18:54:59.733Z] <<< HTTP RESPONSE 200
 [info] i  hosting: Serving hosting files from: public
 [info] ✔  hosting: Local server: http://localhost:5000
 
