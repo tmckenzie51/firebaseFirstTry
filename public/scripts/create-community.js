@@ -363,30 +363,50 @@ createCustomCommunity(event){
 //Saves user info to firebase real-time database
 saveCommunity(event){
 
+//creating the comunityData to writ einto the database
+if(this.selectedCommunities.length === 4){
+  var communityData = {
+    bigCommunity: this.selectedCommunities[0],
+    innerComm1: this.selectedCommunities[1],
+    innerComm2: this.selectedCommunities[2],
+    innerComm3: this.selectedCommunities[3]
+  }
+}else if(this.selectedCommunities.length === 3){
+  var communityData = {
+  bigCommunity: this.selectedCommunities[0],
+  innerComm1: this.selectedCommunities[1],
+  innerComm2: this.selectedCommunities[2]
+}
+}else if(this.selectedCommunities.length === 2){
+  var communityData = {
+  bigCommunity: this.selectedCommunities[0],
+  innerComm1: this.selectedCommunities[1]
+}
+}
+
+
 const user =  firebase.auth().currentUser;
 
-  //updating the communities
-  var communityData = {
-    newCommunity: this.selectedCommunities
-  };
+
+// var communityRef = firebase.database().ref("user-communities/"+ user.uid + "/");
+// var newCommunityRef = communityRef.push()
+// newCommunityRef.set({
+//   communityData
+// });
+// this.hide();
 
   // Get a key for a newly created community.
-  var newCommunityKey = firebase.database().ref().child('communities').push().key;
+// var newCommunityKey = firebase.database().ref().child("user-communities/"+ user.uid + "/").push().key; //todo: should child be 'comunities' or should it be 'UserID' or user-communities
+//
+
+
 
   // Write the newCommunity's data to user's communities list.
   var updates = {};
-  updates['/user-communities/' + user.uid + '/' + newCommunityKey] = communityData;
+  updates['/user-communities/communityOne/' + user.uid] = communityData;
 
-  console.log('returning to database');
   this.hide();
   return firebase.database().ref().update(updates);
-
-
-
-
-  //dispatch custom event to match screen
-//  const myEvent = new CustomEvent('submitted', {detail: submitInfo});
-  //document.dispatchEvent(myEvent);
 
 
 
@@ -394,12 +414,20 @@ const user =  firebase.auth().currentUser;
 
 
 
+
+
   hide(){
     console.log('showing match screen');
     this.containerElement.classList.add('inactive');
+    //dispatch custom event to matchScreen in order to query the database
+    event.preventDefault();
+
+    const myEvent = new CustomEvent('submitted');
+    document.dispatchEvent(myEvent);
     //show match screen
     const matchScreenElement  =  document.querySelector('#match-screen');
     matchScreenElement.classList.remove('inactive');
+
   }
 
   }

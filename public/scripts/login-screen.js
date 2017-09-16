@@ -70,6 +70,8 @@ firebase.auth().onAuthStateChanged(function(user) {
           email: user.email,
           profile_picture : user.photoURL,
         });
+
+
       console.log('saved user in database with empty communities');
   } else {
     // No user is signed in.
