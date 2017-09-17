@@ -5,12 +5,14 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
-      <title>CS193x Final Project</title>
+      <title>Community</title>
+      <link rel="manifest" href="../manifest.json"> <!-- Todo: should this be here? Also is this the file directory-->
       <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
       <link rel="stylesheet" href="css/style.css"/>
 
       <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
+      <script src = "scripts/message-screen.js" defer></script>
       <script src = "scripts/match-screen.js" defer></script>
       <script src = "scripts/create-community.js" defer></script>
       <script src = "scripts/login-screen.js" defer></script>
@@ -244,42 +246,65 @@
                <div id="comm3" class="inactive concentricComm"><p class="commName"></div>
                <div id="comm4" class="inactive concentricComm"><p class="commName"></div>
             </div>
-
-
-            <!-- <button id="removeButton1"  class ="hide-on-small-only button btn waves-effect removeButton waves-light red"><i class="tiny material-icons">remove</i></button> -->
           </div>
         </div>
-
-    <!--   <div id="doneButton"><button class="inactive col s10 offset-s8 btn waves-effect waves-light">Done<i class="material-icons right">send</i></button></div>
-      <div id="startOverButton"><button class="inactive col s10 offset-s8 btn waves-effect waves-light">Start Over<i class="material-icons right">send</i></button></div> -->
-
       </section>
 
-      <section class="inactive" id = "match-screen">
-
+      <section class = "inactive" id = "match-screen">
         <h5>Here are your matches for today!</h5>
-
         <!-- Match Card -->
-        <div id = "cardContainer" class="row">
-        <div class="col s12 m4">
-
-        <!--  <div class="card">
-            <div class="card-image">
-              <img src="http://mattchen.co/img/members/tiffany.jpg">
-              <span class="card-title">Tiffany</span>
-            </div>
-            <div class="card-content">
-              <p>You guys match based on 3 out of 4 communities</p>
-            </div>
-            <div class="card-action">
-              <a id = "messageButton" href="#"><i class="material-icons">message</i>Message</a>
-            </div>
-          </div> -->
-
+        <div  class="row">
+          <div id = "cardContainer" class="col s12 m6 l3"></div>
         </div>
-      </div>
+      </section>
+
+      <section class = 'inactive' id = "messageScreen">
+        <h4> Your Messages </h4>
+
+        <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
+
+          <main class="mdl-layout__content mdl-color--grey-100">
+            <div id="messages-card-container" class="mdl-cell mdl-cell--12-col mdl-grid">
+
+              <!-- todo: just commenting : keep all a dis -->
+              <!-- Messages container -->
+              <div id="messages-card" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--6-col-desktop">
+                <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+                  <div id="messages">
+                    <span id="message-filler"></span>
+                  </div>
+                  <form id="message-form" action="#">
+                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                      <input class="mdl-textfield__input" type="text" id="message">
+                      <label class="mdl-textfield__label" for="message">Message...</label>
+                    </div>
+                    <button id="submit" disabled type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                      Send
+                    </button>
+                  </form>
+                  <form id="image-form" action="#">
+                    <input id="mediaCapture" type="file" accept="image/*,capture=camera">
+                    <button id="submitImage" title="Add an image" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--amber-400 mdl-color-text--white">
+                      <i class="material-icons">image</i>
+                    </button>
+                  </form>
+                </div>
+              </div>
+
+              <!-- todo: keep all this good good above -->
+
+              <div id="must-signin-snackbar" class="mdl-js-snackbar mdl-snackbar">
+                <div class="mdl-snackbar__text"></div>
+                <button class="mdl-snackbar__action" type="button"></button>
+              </div>
+
+            </div>
+          </main>
+        </div>
 
       </section>
+
+
 
 
 

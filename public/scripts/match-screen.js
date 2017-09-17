@@ -12,27 +12,28 @@ class matchScreen {
     this.getMatches = this.getMatches.bind(this);
     this.calcualteNumberOfMatchingCommunities = this.calcualteNumberOfMatchingCommunities.bind(this);
     this.displayMatches = this.displayMatches.bind(this);
-    //this.messageMatch = this.messageMatch.bind(this);
 
-    // const messageButton = document.querySelector('#messageButton');
-    // messageButton.addEventListener('click',this.messageMatch);
     document.addEventListener('submitted',this.getMatches);
+
+
 
     }
 
 
     getMatches(event){
       event.preventDefault;
+      var currBigComm = null;
       //get currUser's bigCommunity
       const user =  firebase.auth().currentUser;
       var userRef = firebase.database().ref("user-communities");
+
       userRef.child("communityOne").child(user.uid).orderByChild("bigCommunity").on("value",function(snap){
         console.log('retrieving bigComm');
         console.log(snap.val().bigCommunity);
-        var currBigComm = snap.val().bigCommunity;
+        currBigComm = snap.val().bigCommunity;
+        console.log(currBigComm);
 
         var ref = firebase.database().ref("user-communities");
-
         ref.child("communityOne").orderByChild("bigCommunity").equalTo(currBigComm).on("value",function(data){
           data.forEach(function(data){
             //use userID to query for userName and profile profile_picture
@@ -59,20 +60,36 @@ class matchScreen {
               nameDisplay.classList.add('card-title');
               nameDisplay.textContent = name;
               cardPic.appendChild(nameDisplay);
-              card.appendChild(cardPic);
+
 
               //card action
-              const actionDiv = document.createElement('div');
-              actionDiv.classList.add('card-action');
               const actionLink = document.createElement('a');
-              actionLink.classList.add('messageButton');
+              actionLink.classList.add('messageButton', 'btn-floating', 'halfway-fab', 'waves-effect', 'waves-light', 'blue');
               const messageIcon = document.createElement('i');
               messageIcon.classList.add('material-icons');
               messageIcon.textContent = 'message';
-              actionLink.textContent = 'Message';
-              actionDiv.appendChild(actionLink);
-              actionDiv.appendChild(messageIcon);
-              card.appendChild(actionDiv);
+              actionLink.appendChild(messageIcon);
+              cardPic.appendChild(actionLink);
+              actionLink.id = 'messageButton';
+              actionLink.addEventListener("click",function(){
+                //switch to messaging screen
+                console.log('messaging match');
+                const messageScreen = document.getElementById('messageScreen');
+                const matchScreen =  document.getElementById('match-screen');
+                matchScreen.classList.add('inactive');
+                messageScreen.classList.remove('inactive');
+                //fire custom event in message screen 
+                const myEvent = new CustomEvent('message');
+                document.dispatchEvent(myEvent);
+              });
+              card.appendChild(cardPic);
+
+              const cardContent = document.createElement('div');
+              const message = document.createElement('p');
+              message.textContent = "Here's a message about myself and interests along with some fun facts. I love going for hikes, biking and spending time with friends. I'm looking to meet awesome people on here with similar interests";
+              cardContent.appendChild(message);
+              card.appendChild(cardContent);
+
             })
             })
           });
@@ -83,18 +100,17 @@ class matchScreen {
 
     calcualteNumberOfMatchingCommunities(){
       console.log('calculating the number of matching communities');
-      this.displayMatches();
+      //this.displayMatches();
     }
 
     displayMatches(data){
       console.log('we did it');
-      //get userID from query
     }
 
-    // messageMatch(event){
-    //   console.log('messaging match');
-    //   const user = firebase.auth().currentUser;
-    //
-    // }
+    messageMatch(event){
+      console.log('messaging match');
+      const user = firebase.auth().currentUser;
+
+    }
 
 }

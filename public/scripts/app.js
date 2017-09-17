@@ -6,5 +6,7 @@ class App {
     this.communityScreen  = new createCommunity(communityElement);
     const matchScreenElement  =  document.querySelector('#match-screen');
     this.matchScreen = new matchScreen(matchScreenElement);
+    const messageScreenElement = document.getElementById('matchScreen');
+    this.messageScreen = new messageScreen(messageScreenElement);
   }
  }
