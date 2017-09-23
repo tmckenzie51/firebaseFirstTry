@@ -70,7 +70,7 @@ class matchScreen {
               messageIcon.textContent = 'message';
               actionLink.appendChild(messageIcon);
               cardPic.appendChild(actionLink);
-              actionLink.id = 'messageButton';
+              actionLink.id = userID; //todo: do i need to give this element an id?
               actionLink.addEventListener("click",function(){
                 //switch to messaging screen
                 console.log('messaging match');
@@ -78,8 +78,8 @@ class matchScreen {
                 const matchScreen =  document.getElementById('match-screen');
                 matchScreen.classList.add('inactive');
                 messageScreen.classList.remove('inactive');
-                //fire custom event in message screen 
-                const myEvent = new CustomEvent('message');
+                //fire custom event in message screen
+                const myEvent = new CustomEvent('message',{detail: userID});
                 document.dispatchEvent(myEvent);
               });
               card.appendChild(cardPic);

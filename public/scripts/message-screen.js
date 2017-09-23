@@ -1,199 +1,306 @@
 'use strict';
-//todo: change 'friendlychat' everywhere
-//todo: chage firevase image in folder and find out where it si referenced here
+
+const messaging  = firebase.messaging();
+//var storage = firebase.storage();
+
+class messageScreen {
+
+  constructor(containerElement){
+
+    // Shortcuts to DOM Elements.
+    this.messageList = document.getElementById('messages');
+    this.messageForm = document.getElementById('message-form');
+    this.messageInput = document.getElementById('message');
+    this.submitButton = document.getElementById('submit');
+    this.submitImageButton = document.getElementById('submitImage');
+    this.imageForm = document.getElementById('image-form');
+    this.mediaCapture = document.getElementById('mediaCapture');
+    this.signInSnackbar = document.getElementById('must-signin-snackbar');
 
 
-//todo: 1st function
+    this.loadMessages = this.loadMessages.bind(this);
+    this.setImageUrl = this.setImageUrl.bind(this);
+    this.saveImageMessage = this.saveImageMessage.bind(this);
+    this.saveMessagingDeviceToken = this.saveMessagingDeviceToken.bind(this);
+    this.checkSignedInWithMessage = this.checkSignedInWithMessage.bind(this);
+    this.requestNotificationsPermissions = this.requestNotificationsPermissions.bind(this);
+    this.resetMaterialTextfield = this.resetMaterialTextfield.bind(this);
+    this.displayMessage= this.displayMessage.bind(this);
+    this.toggleButton = this.toggleButton.bind(this);
+    this.checkSetup = this.checkSetup.bind(this);
+    this.saveMessage = this.saveMessage.bind(this);
+    this.getCurrentChatId = this.getCurrentChatId.bind(this);
+    this.retieveChatIDToSaveMessage = this.retieveChatIDToSaveMessage.bind(this);
 
-// Initializes FriendlyChat.
-function FriendlyChat() {
-  this.checkSetup();
 
-  // Shortcuts to DOM Elements.
-  this.messageList = document.getElementById('messages');
-  this.messageForm = document.getElementById('message-form');
-  this.messageInput = document.getElementById('message');
-  this.submitButton = document.getElementById('submit');
-  this.submitImageButton = document.getElementById('submitImage');
-  this.imageForm = document.getElementById('image-form');
-  this.mediaCapture = document.getElementById('mediaCapture');
-  this.signInSnackbar = document.getElementById('must-signin-snackbar');
+    // Template for messages.
+    this.MESSAGE_TEMPLATE =
+        '<div class="message-container">' +
+          '<div class="spacing"><div class="pic"></div></div>' +
+          '<div class="message"></div>' +
+          '<div class="name"></div>' +
+        '</div>';
 
-  // Saves message on form submit.
-  this.messageForm.addEventListener('submit', this.saveMessage.bind(this));
+    // A loading image URL.
+    this.LOADING_IMAGE_URL = 'https://www.google.com/images/spin-32.gif';
 
-  // Toggle for the button.
-  var buttonTogglingHandler = this.toggleButton.bind(this);
-  this.messageInput.addEventListener('keyup', buttonTogglingHandler);
-  this.messageInput.addEventListener('change', buttonTogglingHandler);
+    // Saves message on form submit.
+    this.messageForm.addEventListener('submit', this.retieveChatIDToSaveMessage);
 
-  // Events for image upload.
-  this.submitImageButton.addEventListener('click', function(e) {
-    e.preventDefault();
-    this.mediaCapture.click();
-  }.bind(this));
-  this.mediaCapture.addEventListener('change', this.saveImageMessage.bind(this));
+    // Toggle for the button.
+    var buttonTogglingHandler = this.toggleButton;
+    this.messageInput.addEventListener('keyup', buttonTogglingHandler);
+    this.messageInput.addEventListener('change', buttonTogglingHandler);
 
-  this.initFirebase();
+    // Events for image upload.
+    this.submitImageButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      this.mediaCapture.click();
+    }.bind(this));
+    this.mediaCapture.addEventListener('change', this.saveImageMessage);
+
+    this.testing = this.testing.bind(this);
+    document.addEventListener('message',this.testing);
+
+  }
+
+  //todo: fix issues with this.chatid and this.currentChatMessagesReference --> they are giving undefined values
+
+  testing(event){
+    console.log('in message screen');
+    this.recipientID = event.detail;
+    this.database = firebase.database();
+    this.currentUser = firebase.auth().currentUser;
+    this.checkSetup();
+    this.getCurrentChatId()
+    this.saveMessagingDeviceToken();
+  }
+
+  getCurrentChatId(){
+    //todo: check how return works in this function
+    //get chatID from user-chats
+    console.log('recipientid' + this.recipientID);
+    console.log('current user : '+ this.currentUser.uid);
+    var userChatsRef = this.database.ref('user-chats/' + this.currentUser.uid);
+    userChatsRef.orderByChild("recipientID").equalTo(this.recipientID).on("value",(snapshot)=>{
+      console.log('got the kids');
+      console.log(snapshot.val());
+      if(snapshot.val()){
+        snapshot.forEach((data)=>{
+          console.log('we there');
+          console.log('chatid: '+ data.val().chatID);
+          this.loadMessages(data.val().chatID);
+        });
+      }else{
+        console.log('snapshot.val is null');
+        this.loadMessages(null);
+      }
+    });
+  }
+
+// Loads chat messages history and listens for upcoming ones.
+  loadMessages(currentChatId) {
+    console.log('loading messages');
+
+  // Reference to the /messages/ database path.
+  this.messagesRef = this.database.ref('messages');
+  console.log('current chat id: '+currentChatId);
+  var currentChatMessagesReference = null;
+  if(currentChatId){
+    console.log('chatid not null');
+    currentChatMessagesReference = this.database.ref('messages/'+currentChatId);
+    console.log('test');
+  }else{
+    console.log('chatid is null')
+    this.newchatId = firebase.database().ref().child('chat-messages').push().key;
+    currentChatMessagesReference =  this.database.ref('messages/'+this.newchatId);
+  }
+  console.log('test');
+ //todo: don't make this a class variable
+  // Make sure we remove all previous listeners.
+  currentChatMessagesReference.off();
+  console.log('test');
+
+  // Loads the last 12 messages and listen for new ones.
+  var setMessage = function(data){
+    var val = data.val();
+    this.displayMessage(data.key, val.name, val.text, val.photoUrl, val.imageUrl);
+  }.bind(this);
+  console.log('test');
+  currentChatMessagesReference.limitToLast(12).on('child_added',setMessage);
+  console.log('test');
+  currentChatMessagesReference.limitToLast(12).on('child_added',setMessage);
+  console.log('test');
+}
+
+retieveChatIDToSaveMessage(event){
+  //todo: check how return works in this function
+  //get chatID from user-chats
+  console.log('retrieving Chat id in order to save message');
+  var currentUserChatsRef = this.database.ref('user-chats/' + this.currentUser.uid);
+  console.log('test');
+  currentUserChatsRef.orderByChild("recipientID").equalTo(this.recipientID).once("value",(snapshot)=>{
+    console.log('querying in order to get chatid');
+    if(snapshot.val()){
+      snapshot.forEach((data)=>{
+        console.log('got the chatid: '+ data.val().chatID);
+        this.saveMessage(data.val().chatID);
+      });
+    }else{
+      console.log('snap val is null');
+      this.saveMessage(null);
+    }
+
+  });
+}
+
+// Saves a new message on the Firebase DB.
+  saveMessage(chatid) {
+  event.preventDefault();
+  console.log('saving message with chat id: '+ chatid);
+  // Check that the user entered a message and is signed in.
+  if (this.messageInput.value && this.checkSignedInWithMessage()) {
+    var timestamp = Math.floor(Date.now() / 1000);
+    var updates = {};
+    //check if this person already exists as a chat recipient
+      console.log('chat id:' + chatid);
+      if(!chatid){
+        //create new chatID key and add to database
+        console.log('doesnt exist');
+
+        this.newChatRef = firebase.database().ref('user-chats/'+this.currentUser.uid+'/'+this.newchatId);
+        this.newChatRef2 = firebase.database().ref('user-chats/'+this.recipientID+'/'+this.newchatId);
+
+        //add recipient to list of inbox convos for current user
+        this.newChatRef.set({
+          recipientID: this.recipientID,
+          timestamp: timestamp ,
+          chatID: this.newchatId
+        });
+        //add currentUser to list of inbox convos for recipent
+        this.newChatRef2.set({
+          recipientID: this.currentUser.uid ,
+          timestamp: timestamp ,
+          chatID: this.newchatId
+        });
+
+        console.log('chatID: '+this.newchatId);
+        let currentChatMessagesReference = this.database.ref('messages/'+this.newchatId);
+        console.log(currentChatMessagesReference);
+        this.pushMessages(currentChatMessagesReference);
+      }else{
+        console.log("exists!");
+
+        //update timestamp for this current user
+        var chatData = {
+          recipientID: this.recipientID,
+          timestamp:timestamp ,
+          chatID: chatid
+        }
+
+        //update timestamp for other chat Participant
+        var chatData2 = {
+          recipientID : this.currentUser.uid ,
+          timestamp:timestamp ,
+          chatID: chatid
+        }
+
+        updates[ '/user-chats/' + this.currentUser.uid +'/' + chatid] = chatData; //update timestamp on current user convo with recipient
+        updates['/user-chats/' + this.recipientID +'/' + chatid] = chatData2; //update timestamp on recipient convo with currentUser
+
+        // Add a new message entry to the Firebase Database.
+        console.log('about to push messages and make timestamp updates with chatID: '+chatid);
+        let currentChatMessagesReference = this.database.ref('messages/'+chatid);
+        this.pushMessages(currentChatMessagesReference);
+        return firebase.database().ref().update(updates);
+      }
+    }
+  }
+
+pushMessages(chatRef){
+  // Add a new message entry to the Firebase Database.
+  chatRef.push({
+    name: this.currentUser.displayName,
+    text: this.messageInput.value,
+    photoUrl: this.currentUser.photoURL || '/images/profile_placeholder.png'
+  }).then(function() {
+    // Clear message text field and SEND button state.
+    this.resetMaterialTextfield(this.messageInput);
+    this.toggleButton();
+  }.bind(this)).catch(function(error) {
+    console.error('Error writing new message to Firebase Database', error);
+  });
+}
+
+// Sets the URL of the given img element with the URL of the image stored in Cloud Storage.
+setImageUrl(imageUri, imgElement) {
+  console.log('something');
+
+  //todo: hardcode these parameters for testing
+
+  // // If the image is a Cloud Storage URI we fetch the URL.
+  // if (imageUri.startsWith('gs://')) {
+  //   imgElement.src = this.LOADING_IMAGE_URL; // Display a loading image first.
+  //   this.storage.refFromURL(imageUri).getMetadata().then(function(metadata) {
+  //     imgElement.src = metadata.downloadURLs[0];
+  //   });
+  // } else {
+  //   imgElement.src = imageUri;
+  // }
+}
+
+// Saves a new message containing an image URI in Firebase.
+// This first saves the image in Firebase storage.
+saveImageMessage(event) {
+  console.log('saving image message');
+  // event.preventDefault();
+  // var file = event.target.files[0];
+  //
+  // //todo; maybe this function isn't necessary for the first test
+  //
+  // // Clear the selection in the file picker input.
+  // this.imageForm.reset();
+  //
+  // // Check if the file is an image.
+  // if (!file.type.match('image.*')) {
+  //   var data = {
+  //     message: 'You can only share images',
+  //     timeout: 2000
+  //   };
+  //   this.signInSnackbar.MaterialSnackbar.showSnackbar(data);
+  //   return;
+  // }
+  //
+  // // Check if the user is signed-in
+  // if (this.checkSignedInWithMessage()) {
+  //
+  //   // We add a message with a loading icon that will get updated with the shared image.
+  //   var currentUser = firebase.auth().currentUser;;
+  //   this.messagesRef.push({
+  //     name: currentUser.displayName,
+  //     imageUrl: this.LOADING_IMAGE_URL,
+  //     photoUrl: currentUser.photoURL || '/images/profile_placeholder.png'
+  //   }).then(function(data) {
+  //
+  //     // Upload the image to Cloud Storage.
+  //     var filePath = currentUser.uid + '/' + data.key + '/' + file.name;
+  //     //return storage.ref(filePath).put(file).then(function(snapshot) {
+  //
+  //       // Get the file's Storage URI and update the chat message placeholder.
+  //       var fullPath = snapshot.metadata.fullPath;
+  //       return data.update({imageUrl: this.storage.ref(fullPath).toString()});
+  //     }.bind(this));
+  //   }.bind(this)).catch(function(error) {
+  //     console.error('There was an error uploading a file to Cloud Storage:', error);
+  //   });
+  // }
 }
 
 
-//todo: like one line of code
-
-// Sets up shortcuts to Firebase features and initiate firebase auth.
-FriendlyChat.prototype.initFirebase = function() {
-  // Shortcuts to Firebase SDK features.
-  this.auth = firebase.auth();
-  this.database = firebase.database();
-  this.storage = firebase.storage();
-  // Initiates Firebase auth and listen to auth state changes.
-  this.auth.onAuthStateChanged(this.onAuthStateChanged.bind(this));
-};
-
-
-//todo:second function - more like  aline of code though
-
-// Loads chat messages history and listens for upcoming ones.
-FriendlyChat.prototype.loadMessages = function() {
-  // Reference to the /messages/ database path.
- this.messagesRef = this.database.ref('messages');
- // Make sure we remove all previous listeners.
- this.messagesRef.off();
-
- // Loads the last 12 messages and listen for new ones.
- var setMessage = function(data) {
-   var val = data.val();
-   this.displayMessage(data.key, val.name, val.text, val.photoUrl, val.imageUrl);
- }.bind(this);
- this.messagesRef.limitToLast(12).on('child_added', setMessage);
- this.messagesRef.limitToLast(12).on('child_changed', setMessage);
-};
-
-
-//todo: function but kinda like just a line of code -- see semi-colon at end
-
-// Saves a new message on the Firebase DB.
-FriendlyChat.prototype.saveMessage = function(e) {
-  e.preventDefault();
-    // Check that the user entered a message and is signed in.
-    if (this.messageInput.value && this.checkSignedInWithMessage()) {
-      var currentUser = this.auth.currentUser;
-      // Add a new message entry to the Firebase Database.
-      this.messagesRef.push({
-        name: currentUser.displayName,
-        text: this.messageInput.value,
-        photoUrl: currentUser.photoURL || '/images/profile_placeholder.png'
-      }).then(function() {
-        // Clear message text field and SEND button state.
-        FriendlyChat.resetMaterialTextfield(this.messageInput);
-        this.toggleButton();
-      }.bind(this)).catch(function(error) {
-        console.error('Error writing new message to Firebase Database', error);
-      });
-    }
-};
-
-//todo: function but mor elike a line of code
-
-// Sets the URL of the given img element with the URL of the image stored in Cloud Storage.
-FriendlyChat.prototype.setImageUrl = function(imageUri, imgElement) {
-  imgElement.src = imageUri;
-
-  // If the image is a Cloud Storage URI we fetch the URL.
-  if (imageUri.startsWith('gs://')) {
-    imgElement.src = FriendlyChat.LOADING_IMAGE_URL; // Display a loading image first.
-    this.storage.refFromURL(imageUri).getMetadata().then(function(metadata) {
-      imgElement.src = metadata.downloadURLs[0];
-    });
-  } else {
-    imgElement.src = imageUri;
-  }
-};
-
-//todo: function but like a line of code: find a different way to get image here
-// Saves a new message containing an image URI in Firebase.
-// This first saves the image in Firebase storage.
-FriendlyChat.prototype.saveImageMessage = function(event) {
-  event.preventDefault();
-  var file = event.target.files[0];
-
-  // Clear the selection in the file picker input.
-  this.imageForm.reset();
-
-  // Check if the file is an image.
-  if (!file.type.match('image.*')) {
-    var data = {
-      message: 'You can only share images',
-      timeout: 2000
-    };
-    this.signInSnackbar.MaterialSnackbar.showSnackbar(data);
-    return;
-  }
-
-  // Check if the user is signed-in
-   if (this.checkSignedInWithMessage()) {
-
-     // We add a message with a loading icon that will get updated with the shared image.
-     var currentUser = this.auth.currentUser;
-     this.messagesRef.push({
-       name: currentUser.displayName,
-       imageUrl: FriendlyChat.LOADING_IMAGE_URL,
-       photoUrl: currentUser.photoURL || '/images/profile_placeholder.png'
-     }).then(function(data) {
-
-       // Upload the image to Cloud Storage.
-       var filePath = currentUser.uid + '/' + data.key + '/' + file.name;
-       return this.storage.ref(filePath).put(file).then(function(snapshot) {
-
-         // Get the file's Storage URI and update the chat message placeholder.
-         var fullPath = snapshot.metadata.fullPath;
-         return data.update({imageUrl: this.storage.ref(fullPath).toString()});
-       }.bind(this));
-     }.bind(this)).catch(function(error) {
-       console.error('There was an error uploading a file to Cloud Storage:', error);
-     });
-   }
- }; //todo: end of function line
-
-
-//todo: maybe don't need this since already signing in earlier in  community -- change
-
-// Signs-in Friendly Chat.
-FriendlyChat.prototype.signIn = function() {
-  // Sign in Firebase using popup auth and Google as the identity provider.
-  var provider = new firebase.auth.GoogleAuthProvider();
-  this.auth.signInWithPopup(provider);
-};
-
-//todo: don't need this because can be handled otherwise with community app
-// Signs-out of Friendly Chat.
-FriendlyChat.prototype.signOut = function() {
-  // Sign out of Firebase.
-   this.auth.signOut();
-};
-
-//todo: check to handle differently for community
-// Triggers when the auth state change for instance when the user signs-in or signs-out.
-FriendlyChat.prototype.onAuthStateChanged = function(user) {
-  if (user) { // User is signed in!
-    // Get profile pic and user's name from the Firebase user object.
-    var profilePicUrl = user.photoURL; // Only change these two lines!  //todo: check that it is referencing the correct user information
-    var userName = user.displayName;   // Only change these two lines!
-
-//todo: change th epic and username stuff here for community
-
-    // We load currently existing chant messages.
-    this.loadMessages();
-
-    // We save the Firebase Messaging Device token and enable notifications.
-    this.saveMessagingDeviceToken();
-  }
-};
-
 // Returns true if user is signed-in. Otherwise false and displays a message.
-FriendlyChat.prototype.checkSignedInWithMessage = function() {
+checkSignedInWithMessage() {
   // Return true if the user is signed in Firebase
-  if (this.auth.currentUser) { //todo: change this for community
+  if (firebase.auth().currentUser) {
     return true;
   }
 
@@ -204,16 +311,16 @@ FriendlyChat.prototype.checkSignedInWithMessage = function() {
   };
   this.signInSnackbar.MaterialSnackbar.showSnackbar(data);
   return false;
-};
+}
 
 // Saves the messaging device token to the datastore.
-FriendlyChat.prototype.saveMessagingDeviceToken = function() {
+saveMessagingDeviceToken() {
   firebase.messaging().getToken().then(function(currentToken) {
     if (currentToken) {
       console.log('Got FCM device token:', currentToken);
       // Saving the Device Token to the datastore.
       firebase.database().ref('/fcmTokens').child(currentToken)
-          .set(firebase.auth().currentUser.uid); //todo: check if this would still work for community
+          .set(firebase.auth().currentUser.uid);
     } else {
       // Need to request permissions to show notifications.
       this.requestNotificationsPermissions();
@@ -221,54 +328,46 @@ FriendlyChat.prototype.saveMessagingDeviceToken = function() {
   }.bind(this)).catch(function(error){
     console.error('Unable to get messaging token.', error);
   });
-};
+}
 
 // Requests permissions to show notifications.
-FriendlyChat.prototype.requestNotificationsPermissions = function() {
+requestNotificationsPermissions() {
   console.log('Requesting notifications permission...');
- firebase.messaging().requestPermission().then(function() {
-   // Notification permission granted.
-   this.saveMessagingDeviceToken();
- }.bind(this)).catch(function(error) {
-   console.error('Unable to get permission to notify.', error);
- });
-};
+  firebase.messaging().requestPermission().then(function() {
+    // Notification permission granted.
+    this.saveMessagingDeviceToken();
+  }.bind(this)).catch(function(error) {
+    console.error('Unable to get permission to notify.', error);
+  });
+}
 
 // Resets the given MaterialTextField.
-FriendlyChat.resetMaterialTextfield = function(element) {
+resetMaterialTextfield(element) {
   element.value = '';
-  element.parentNode.MaterialTextfield.boundUpdateClassesHandler();
-};
+  console.log(element);
+  console.log(element.parentNode);
+  console.log(element.parentNode.MaterialTextfield);
+  //element.parentNode.MaterialTextfield.boundUpdateClassesHandler(); //todo: fix this bug - .MaterialTextfield undefined
+}
 
-// Template for messages.
-FriendlyChat.MESSAGE_TEMPLATE =
-    '<div class="message-container">' +
-      '<div class="spacing"><div class="pic"></div></div>' +
-      '<div class="message"></div>' +
-      '<div class="name"></div>' +
-    '</div>';
 
-//todo: check if this applies here
-// A loading image URL.
-FriendlyChat.LOADING_IMAGE_URL = 'https://www.google.com/images/spin-32.gif';
+
+
 
 // Displays a Message in the UI.
-FriendlyChat.prototype.displayMessage = function(key, name, text, picUrl, imageUri) {
+displayMessage(key, name, text, picUrl, imageUri) {
   var div = document.getElementById(key);
   // If an element for that message does not exists yet we create it.
   if (!div) {
     var container = document.createElement('div');
-    container.innerHTML = FriendlyChat.MESSAGE_TEMPLATE;
+    container.innerHTML = this.MESSAGE_TEMPLATE;
     div = container.firstChild;
     div.setAttribute('id', key);
     this.messageList.appendChild(div);
   }
-
-  //todo: check out pic stuff here
   if (picUrl) {
     div.querySelector('.pic').style.backgroundImage = 'url(' + picUrl + ')';
   }
-  //todo: check out name stuff here
   div.querySelector('.name').textContent = name;
   var messageElement = div.querySelector('.message');
   if (text) { // If the message is text.
@@ -284,15 +383,15 @@ FriendlyChat.prototype.displayMessage = function(key, name, text, picUrl, imageU
     messageElement.innerHTML = '';
     messageElement.appendChild(image);
   }
-  // Show the card fading-in.
+  // Show the card fading-in and scroll to view the new message.
   setTimeout(function() {div.classList.add('visible')}, 1);
   this.messageList.scrollTop = this.messageList.scrollHeight;
   this.messageInput.focus();
-};
+}
 
 // Enables or disables the submit button depending on the values of the input
 // fields.
-FriendlyChat.prototype.toggleButton = function() {
+toggleButton() {
   if (this.messageInput.value) {
     this.submitButton.removeAttribute('disabled');
   } else {
@@ -301,14 +400,13 @@ FriendlyChat.prototype.toggleButton = function() {
 };
 
 // Checks that the Firebase SDK has been correctly setup and configured.
-FriendlyChat.prototype.checkSetup = function() {
+checkSetup() {
   if (!window.firebase || !(firebase.app instanceof Function) || !firebase.app().options) {
     window.alert('You have not configured and imported the Firebase SDK. ' +
         'Make sure you go through the codelab setup instructions and make ' +
         'sure you are running the codelab using `firebase serve`');
   }
-};
+}
 
-window.onload = function() {
-  window.friendlyChat = new FriendlyChat();
-};
+
+}

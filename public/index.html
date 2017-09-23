@@ -6,7 +6,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
 
       <title>Community</title>
-      <link rel="manifest" href="../manifest.json"> <!-- Todo: should this be here? Also is this the file directory-->
+      <link rel="manifest" href="manifest.json"> <!-- Todo: should this be here? Also is this the file directory-->
       <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
       <link rel="stylesheet" href="css/style.css"/>
 
@@ -39,6 +39,7 @@
 <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase-database.js"></script>
 <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase-messaging.js"></script>
+<script src="https://www.gstatic.com/firebasejs/4.1.2/firebase-storage.js"></script>
 
 <!-- Leave out Storage -->
 <!-- <script src="https://www.gstatic.com/firebasejs/4.1.2/firebase-storage.js"></script> -->
@@ -263,52 +264,46 @@
 
         <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
 
-          <main class="mdl-layout__content mdl-color--grey-100">
-            <div id="messages-card-container" class="mdl-cell mdl-cell--12-col mdl-grid">
 
-              <!-- todo: just commenting : keep all a dis -->
-              <!-- Messages container -->
-              <div id="messages-card" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--6-col-desktop">
-                <div class="mdl-card__supporting-text mdl-color-text--grey-600">
-                  <div id="messages">
-                    <span id="message-filler"></span>
-                  </div>
-                  <form id="message-form" action="#">
-                    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                      <input class="mdl-textfield__input" type="text" id="message">
-                      <label class="mdl-textfield__label" for="message">Message...</label>
-                    </div>
-                    <button id="submit" disabled type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
-                      Send
-                    </button>
-                  </form>
-                  <form id="image-form" action="#">
-                    <input id="mediaCapture" type="file" accept="image/*,capture=camera">
-                    <button id="submitImage" title="Add an image" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--amber-400 mdl-color-text--white">
-                      <i class="material-icons">image</i>
-                    </button>
-                  </form>
+
+      <main class="mdl-layout__content mdl-color--grey-100">
+        <div id="messages-card-container" class="mdl-cell mdl-cell--12-col mdl-grid">
+
+          <!-- Messages container -->
+          <div id="messages-card" class="mdl-card mdl-shadow--2dp mdl-cell mdl-cell--12-col mdl-cell--6-col-tablet mdl-cell--6-col-desktop">
+            <div class="mdl-card__supporting-text mdl-color-text--grey-600">
+              <div id="messages">
+                <span id="message-filler"></span>
+              </div>
+              <form id="message-form" action="#">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                  <input class="mdl-textfield__input" type="text" id="message">
+                  <label class="mdl-textfield__label" for="message">Message...</label>
                 </div>
-              </div>
-
-              <!-- todo: keep all this good good above -->
-
-              <div id="must-signin-snackbar" class="mdl-js-snackbar mdl-snackbar">
-                <div class="mdl-snackbar__text"></div>
-                <button class="mdl-snackbar__action" type="button"></button>
-              </div>
-
+                <button id="submit" disabled type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+                  Send
+                </button>
+              </form>
+              <form id="image-form" action="#">
+                <input id="mediaCapture" type="file" accept="image/*,capture=camera">
+                <button id="submitImage" title="Add an image" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--amber-400 mdl-color-text--white">
+                  <i class="material-icons">image</i>
+                </button>
+              </form>
             </div>
-          </main>
+          </div>
+
+          <div id="must-signin-snackbar" class="mdl-js-snackbar mdl-snackbar">
+            <div class="mdl-snackbar__text"></div>
+            <button class="mdl-snackbar__action" type="button"></button>
+          </div>
+
         </div>
+      </main>
+    </div>
+
 
       </section>
-
-
-
-
-
-    </section>
 
 
        <!-- Compiled and minified CSS -->
