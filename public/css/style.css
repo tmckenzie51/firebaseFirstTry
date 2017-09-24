@@ -370,3 +370,12 @@ main, #messages-card {
   top: -1px;
   margin-right: 5px;
 }
+
+#inbox {
+  overflow-y: auto;
+  margin-bottom: 10px;
+  height: calc(100% - 80px);
+}
+#inbox-filler {
+  flex-grow: 1;
+}

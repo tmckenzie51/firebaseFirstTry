@@ -15,8 +15,34 @@ class matchScreen {
 
     document.addEventListener('submitted',this.getMatches);
 
+    //todo: organize this
+    this.navigateToInbox = this.navigateToInbox.bind(this);
+    const inboxButtons =  document.getElementsByClassName('messagesButton');
+    for(const button of inboxButtons){
+      button.addEventListener('click',this.navigateToInbox);
+    }
+    this.navigateToStoryboard = this.navigateToStoryboard.bind(this);
+    const storyboardButtons = document.getElementsByClassName('storyboardButton');
+    for(const button of storyboardButtons){
+      button.addEventListener('click',this.navigateToStoryboard);
+    }
 
+    }
 
+    navigateToStoryboard(event){
+      //todo: nav to storyboard
+      console.log('redirecting to storyboard');
+    }
+
+    navigateToInbox(event){
+      this.containerElement.classList.add('inactive');
+      const inboxScreen = document.getElementById('inboxScreen');
+      const myEvent = new CustomEvent('displayInbox'); //add event details here if needed
+      document.dispatchEvent(myEvent);
+      inboxScreen.classList.remove('inactive');
+
+      //todo: nav to inboxScreen
+      console.log('redirecting to inbox');
     }
 
 

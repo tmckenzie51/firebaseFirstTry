@@ -12,15 +12,11 @@ class messageScreen {
     this.messageForm = document.getElementById('message-form');
     this.messageInput = document.getElementById('message');
     this.submitButton = document.getElementById('submit');
-    this.submitImageButton = document.getElementById('submitImage');
-    this.imageForm = document.getElementById('image-form');
     this.mediaCapture = document.getElementById('mediaCapture');
     this.signInSnackbar = document.getElementById('must-signin-snackbar');
 
 
     this.loadMessages = this.loadMessages.bind(this);
-    this.setImageUrl = this.setImageUrl.bind(this);
-    this.saveImageMessage = this.saveImageMessage.bind(this);
     this.saveMessagingDeviceToken = this.saveMessagingDeviceToken.bind(this);
     this.checkSignedInWithMessage = this.checkSignedInWithMessage.bind(this);
     this.requestNotificationsPermissions = this.requestNotificationsPermissions.bind(this);
@@ -52,32 +48,39 @@ class messageScreen {
     this.messageInput.addEventListener('keyup', buttonTogglingHandler);
     this.messageInput.addEventListener('change', buttonTogglingHandler);
 
-    // Events for image upload.
-    this.submitImageButton.addEventListener('click', function(e) {
-      e.preventDefault();
-      this.mediaCapture.click();
-    }.bind(this));
-    this.mediaCapture.addEventListener('change', this.saveImageMessage);
-
     this.testing = this.testing.bind(this);
     document.addEventListener('message',this.testing);
 
   }
 
-  //todo: fix issues with this.chatid and this.currentChatMessagesReference --> they are giving undefined values
 
   testing(event){
     console.log('in message screen');
     this.recipientID = event.detail;
     this.database = firebase.database();
     this.currentUser = firebase.auth().currentUser;
+
+
+    //get user name to display Name as header for message box
+    const profileRef = this.database.ref("users");
+    const userID = this.recipientID;
+    profileRef.child(userID).orderByChild("email").once("value",(snapshot)=>{
+      const userProfileInfo = snapshot.val();
+      const name = userProfileInfo.username;
+      const profilePic = userProfileInfo.profile_picture;
+      const recipientNameHeader = document.getElementById("recipientNameHeader");
+      const recipientPictureHeader = document.getElementById("recipientPictureHeader");
+      recipientPictureHeader.src = profilePic;
+      recipientNameHeader.textContent = name;
+    });
+
+
     this.checkSetup();
     this.getCurrentChatId()
     this.saveMessagingDeviceToken();
   }
 
   getCurrentChatId(){
-    //todo: check how return works in this function
     //get chatID from user-chats
     console.log('recipientid' + this.recipientID);
     console.log('current user : '+ this.currentUser.uid);
@@ -116,7 +119,6 @@ class messageScreen {
     currentChatMessagesReference =  this.database.ref('messages/'+this.newchatId);
   }
   console.log('test');
- //todo: don't make this a class variable
   // Make sure we remove all previous listeners.
   currentChatMessagesReference.off();
   console.log('test');
@@ -134,7 +136,6 @@ class messageScreen {
 }
 
 retieveChatIDToSaveMessage(event){
-  //todo: check how return works in this function
   //get chatID from user-chats
   console.log('retrieving Chat id in order to save message');
   var currentUserChatsRef = this.database.ref('user-chats/' + this.currentUser.uid);
@@ -160,7 +161,7 @@ retieveChatIDToSaveMessage(event){
   console.log('saving message with chat id: '+ chatid);
   // Check that the user entered a message and is signed in.
   if (this.messageInput.value && this.checkSignedInWithMessage()) {
-    var timestamp = Math.floor(Date.now() / 1000);
+    var timestamp = 0 - Math.floor(Date.now() / 1000);
     var updates = {};
     //check if this person already exists as a chat recipient
       console.log('chat id:' + chatid);
@@ -232,69 +233,6 @@ pushMessages(chatRef){
   });
 }
 
-// Sets the URL of the given img element with the URL of the image stored in Cloud Storage.
-setImageUrl(imageUri, imgElement) {
-  console.log('something');
-
-  //todo: hardcode these parameters for testing
-
-  // // If the image is a Cloud Storage URI we fetch the URL.
-  // if (imageUri.startsWith('gs://')) {
-  //   imgElement.src = this.LOADING_IMAGE_URL; // Display a loading image first.
-  //   this.storage.refFromURL(imageUri).getMetadata().then(function(metadata) {
-  //     imgElement.src = metadata.downloadURLs[0];
-  //   });
-  // } else {
-  //   imgElement.src = imageUri;
-  // }
-}
-
-// Saves a new message containing an image URI in Firebase.
-// This first saves the image in Firebase storage.
-saveImageMessage(event) {
-  console.log('saving image message');
-  // event.preventDefault();
-  // var file = event.target.files[0];
-  //
-  // //todo; maybe this function isn't necessary for the first test
-  //
-  // // Clear the selection in the file picker input.
-  // this.imageForm.reset();
-  //
-  // // Check if the file is an image.
-  // if (!file.type.match('image.*')) {
-  //   var data = {
-  //     message: 'You can only share images',
-  //     timeout: 2000
-  //   };
-  //   this.signInSnackbar.MaterialSnackbar.showSnackbar(data);
-  //   return;
-  // }
-  //
-  // // Check if the user is signed-in
-  // if (this.checkSignedInWithMessage()) {
-  //
-  //   // We add a message with a loading icon that will get updated with the shared image.
-  //   var currentUser = firebase.auth().currentUser;;
-  //   this.messagesRef.push({
-  //     name: currentUser.displayName,
-  //     imageUrl: this.LOADING_IMAGE_URL,
-  //     photoUrl: currentUser.photoURL || '/images/profile_placeholder.png'
-  //   }).then(function(data) {
-  //
-  //     // Upload the image to Cloud Storage.
-  //     var filePath = currentUser.uid + '/' + data.key + '/' + file.name;
-  //     //return storage.ref(filePath).put(file).then(function(snapshot) {
-  //
-  //       // Get the file's Storage URI and update the chat message placeholder.
-  //       var fullPath = snapshot.metadata.fullPath;
-  //       return data.update({imageUrl: this.storage.ref(fullPath).toString()});
-  //     }.bind(this));
-  //   }.bind(this)).catch(function(error) {
-  //     console.error('There was an error uploading a file to Cloud Storage:', error);
-  //   });
-  // }
-}
 
 
 // Returns true if user is signed-in. Otherwise false and displays a message.
@@ -350,10 +288,6 @@ resetMaterialTextfield(element) {
   //element.parentNode.MaterialTextfield.boundUpdateClassesHandler(); //todo: fix this bug - .MaterialTextfield undefined
 }
 
-
-
-
-
 // Displays a Message in the UI.
 displayMessage(key, name, text, picUrl, imageUri) {
   var div = document.getElementById(key);
@@ -379,7 +313,7 @@ displayMessage(key, name, text, picUrl, imageUri) {
     image.addEventListener('load', function() {
       this.messageList.scrollTop = this.messageList.scrollHeight;
     }.bind(this));
-    this.setImageUrl(imageUri, image);
+    //this.setImageUrl(imageUri, image);
     messageElement.innerHTML = '';
     messageElement.appendChild(image);
   }

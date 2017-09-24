@@ -12,6 +12,7 @@
 
       <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
+      <script src = "scripts/inboxScreen.js" defer></script>
       <script src = "scripts/message-screen.js" defer></script>
       <script src = "scripts/match-screen.js" defer></script>
       <script src = "scripts/create-community.js" defer></script>
@@ -187,11 +188,17 @@
          <img style="width:10%;height:100%;" src="http://www.webster.edu/images/globalmarketingcommunications/diversity-tree-2014.png"</img>
 
          <ul class="right hide-on-med-and-down">
-           <li><a class = "signOutButton" href="#">Sign Out</a></li> <!--toDo: change navbar link -->
+           <li><a class= "matchesButton" href="#match-screen'">Matches</a></li> <!--toDo: change navbar links-->
+           <li><a class= "messagesButton" href="#">Messages</a></li>
+           <li><a class= "storyboardButton" href="#">Storyboard</a></li>
+           <li><a class= "signOutButton" href="#loginScreen">Sign Out</a></li>
          </ul>
 
          <ul id="slide-out" class="side-nav">
-           <li><a class= "signOutButton" href="#">Sign Out</a></li> <!--toDo: change navbar link -->
+           <li><a class= "matchesButton" href="#match-screen'">Matches</a></li> <!--toDo: change navbar links-->
+           <li><a class= "messagesButton" href="#">Messages</a></li>
+           <li><a class= "storyboardButton" href="#">Storyboard</a></li>
+           <li><a class= "signOutButton" href="#loginScreen">Sign Out</a></li>
          </ul>
          <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a> <!--toDo: change this href link-->
        </div>
@@ -260,7 +267,11 @@
       </section>
 
       <section class = 'inactive' id = "messageScreen">
-        <h4> Your Messages </h4>
+
+          <div class="nav-wrapper container">
+            <img id = "recipientPictureHeader" class= 'btn-floating' style="width:10%;height:10%;"</img>
+            <a id="recipientNameHeader" href="#"></a>
+          </div>
 
         <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
 
@@ -284,12 +295,6 @@
                   Send
                 </button>
               </form>
-              <form id="image-form" action="#">
-                <input id="mediaCapture" type="file" accept="image/*,capture=camera">
-                <button id="submitImage" title="Add an image" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-color--amber-400 mdl-color-text--white">
-                  <i class="material-icons">image</i>
-                </button>
-              </form>
             </div>
           </div>
 
@@ -303,6 +308,13 @@
     </div>
 
 
+      </section>
+
+      <section id = "inboxScreen" class = "inactive">
+        <h4> Inbox </h4>
+        <div id = "inbox">
+          <span id = "inbox-filler"></span>
+        </div>
       </section>
 
 

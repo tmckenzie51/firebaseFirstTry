@@ -1,36 +1,36 @@
-[debug] [2017-09-23T00:11:12.545Z] ----------------------------------------------------------------------
-[debug] [2017-09-23T00:11:12.548Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
-[debug] [2017-09-23T00:11:12.548Z] CLI Version:   3.10.1
-[debug] [2017-09-23T00:11:12.548Z] Platform:      darwin
-[debug] [2017-09-23T00:11:12.548Z] Node Version:  v7.10.0
-[debug] [2017-09-23T00:11:12.549Z] Time:          Fri Sep 22 2017 19:11:12 GMT-0500 (EST)
-[debug] [2017-09-23T00:11:12.549Z] ----------------------------------------------------------------------
+[debug] [2017-09-24T15:56:29.119Z] ----------------------------------------------------------------------
+[debug] [2017-09-24T15:56:29.121Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2017-09-24T15:56:29.122Z] CLI Version:   3.10.1
+[debug] [2017-09-24T15:56:29.122Z] Platform:      darwin
+[debug] [2017-09-24T15:56:29.122Z] Node Version:  v7.10.0
+[debug] [2017-09-24T15:56:29.123Z] Time:          Sun Sep 24 2017 10:56:29 GMT-0500 (EST)
+[debug] [2017-09-24T15:56:29.123Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2017-09-23T00:11:12.569Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2017-09-23T00:11:12.569Z] > authorizing via signed-in user
-[debug] [2017-09-23T00:11:12.572Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2017-09-23T00:11:12.572Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/_Q4-a7OtaifDxy40kDI6cNfUjgDN8rpUwqa85MKsRhI',
+[debug] [2017-09-24T15:56:29.139Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2017-09-24T15:56:29.140Z] > authorizing via signed-in user
+[debug] [2017-09-24T15:56:29.142Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2017-09-24T15:56:29.142Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token { refresh_token: '1/_Q4-a7OtaifDxy40kDI6cNfUjgDN8rpUwqa85MKsRhI',
   client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
   client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
   grant_type: 'refresh_token',
   scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
- Fri Sep 22 2017 19:11:12 GMT-0500 (EST)
-[debug] [2017-09-23T00:11:12.947Z] <<< HTTP RESPONSE 200
-[debug] [2017-09-23T00:11:12.962Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fir-firsttry-2c973  
- Fri Sep 22 2017 19:11:12 GMT-0500 (EST)
-[debug] [2017-09-23T00:11:13.569Z] <<< HTTP RESPONSE 200
-[debug] [2017-09-23T00:11:13.570Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fir-firsttry-2c973/tokens  
- Fri Sep 22 2017 19:11:13 GMT-0500 (EST)
-[debug] [2017-09-23T00:11:14.045Z] <<< HTTP RESPONSE 200
+ Sun Sep 24 2017 10:56:29 GMT-0500 (EST)
+[debug] [2017-09-24T15:56:29.594Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-24T15:56:29.611Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/fir-firsttry-2c973  
+ Sun Sep 24 2017 10:56:29 GMT-0500 (EST)
+[debug] [2017-09-24T15:56:30.358Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-24T15:56:30.359Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/fir-firsttry-2c973/tokens  
+ Sun Sep 24 2017 10:56:30 GMT-0500 (EST)
+[debug] [2017-09-24T15:56:30.883Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Serving from '/Users/tiffanymckenzie/firebaseFirstTry'...
 [info] 
-[debug] [2017-09-23T00:11:14.049Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-firsttry-2c973  
- Fri Sep 22 2017 19:11:14 GMT-0500 (EST)
-[debug] [2017-09-23T00:11:14.546Z] <<< HTTP RESPONSE 200
-[debug] [2017-09-23T00:11:14.546Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/802135370325/clients/_:getWebAppConfig  
- Fri Sep 22 2017 19:11:14 GMT-0500 (EST)
-[debug] [2017-09-23T00:11:15.212Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-24T15:56:30.887Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/fir-firsttry-2c973  
+ Sun Sep 24 2017 10:56:30 GMT-0500 (EST)
+[debug] [2017-09-24T15:56:31.402Z] <<< HTTP RESPONSE 200
+[debug] [2017-09-24T15:56:31.404Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/802135370325/clients/_:getWebAppConfig  
+ Sun Sep 24 2017 10:56:31 GMT-0500 (EST)
+[debug] [2017-09-24T15:56:32.103Z] <<< HTTP RESPONSE 200
 [info] i  hosting: Serving hosting files from: public
 [info] ✔  hosting: Local server: http://localhost:5000
 
