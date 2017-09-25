@@ -33,7 +33,6 @@ class matchScreen {
     }
 
     navigate(event){
-      console.log('navigating');
       this.containerElement.classList.add('inactive');
     }
 
@@ -47,10 +46,7 @@ class matchScreen {
       var userRef = firebase.database().ref("user-communities");
 
       userRef.child("communityOne").child(user.uid).orderByChild("bigCommunity").on("value",function(snap){
-        console.log('retrieving bigComm');
-        console.log(snap.val().bigCommunity);
         currBigComm = snap.val().bigCommunity;
-        console.log(currBigComm);
 
         var ref = firebase.database().ref("user-communities");
         ref.child("communityOne").orderByChild("bigCommunity").equalTo(currBigComm).on("value",function(data){
@@ -93,7 +89,6 @@ class matchScreen {
               actionLink.id = userID; //todo: do i need to give this element an id?
               actionLink.addEventListener("click",function(){
                 //switch to messaging screen
-                console.log('messaging match');
                 const messageScreen = document.getElementById('messageScreen');
                 const matchScreen =  document.getElementById('match-screen');
                 matchScreen.classList.add('inactive');

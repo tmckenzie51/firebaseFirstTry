@@ -71,13 +71,15 @@ firebase.auth().onAuthStateChanged(function(user) {
           profile_picture : user.photoURL,
         });
 
-
-      console.log('saved user in database with empty communities');
+    const myEvent = new CustomEvent('signedIn');
+    document.dispatchEvent(myEvent);
   } else {
     // No user is signed in.
     console.log('no user signed in');
   }
 });
+
+
 
 }
 

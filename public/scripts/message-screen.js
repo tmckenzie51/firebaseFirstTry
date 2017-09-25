@@ -75,14 +75,12 @@ class messageScreen {
   }
 
   navigate(event){
-    console.log('navigating');
     this.containerElement.classList.add('inactive');
   }
 
 
 
   testing(event){
-    console.log('in message screen');
     this.recipientID = event.detail;
     this.database = firebase.database();
     this.currentUser = firebase.auth().currentUser;
@@ -109,20 +107,13 @@ class messageScreen {
 
   getCurrentChatId(){
     //get chatID from user-chats
-    console.log('recipientid' + this.recipientID);
-    console.log('current user : '+ this.currentUser.uid);
     var userChatsRef = this.database.ref('user-chats/' + this.currentUser.uid);
     userChatsRef.orderByChild("recipientID").equalTo(this.recipientID).on("value",(snapshot)=>{
-      console.log('got the kids');
-      console.log(snapshot.val());
       if(snapshot.val()){
         snapshot.forEach((data)=>{
-          console.log('we there');
-          console.log('chatid: '+ data.val().chatID);
           this.loadMessages(data.val().chatID);
         });
       }else{
-        console.log('snapshot.val is null');
         this.loadMessages(null);
       }
     });
@@ -130,52 +121,47 @@ class messageScreen {
 
 // Loads chat messages history and listens for upcoming ones.
   loadMessages(currentChatId) {
-    console.log('loading messages');
-
   // Reference to the /messages/ database path.
   this.messagesRef = this.database.ref('messages');
-  console.log('current chat id: '+currentChatId);
   var currentChatMessagesReference = null;
   if(currentChatId){
-    console.log('chatid not null');
     currentChatMessagesReference = this.database.ref('messages/'+currentChatId);
-    console.log('test');
   }else{
-    console.log('chatid is null')
     this.newchatId = firebase.database().ref().child('chat-messages').push().key;
     currentChatMessagesReference =  this.database.ref('messages/'+this.newchatId);
   }
-  console.log('test');
+
+  //todo
   // Make sure we remove all previous listeners.
-  currentChatMessagesReference.off();
-  console.log('test');
+  //currentChatMessagesReference.off(); //todo: check if we really wanna turn this off
+
+
+    //while in the match screen 'child_added' counts as every single child that has ever been added.
+    //maybe fix this by writing /user-activity/currentUser.uid/signoutTime = timestamp
+      // if (messages/chatID).on(child_added) --> data.val().timestamp
+
+      //only execute rest of the function under condition that this message screen is not active
+        //use document.active element
+
 
   // Loads the last 12 messages and listen for new ones.
   var setMessage = function(data){
     var val = data.val();
     this.displayMessage(data.key, val.name, val.text, val.photoUrl, val.imageUrl);
   }.bind(this);
-  console.log('test');
   currentChatMessagesReference.limitToLast(12).on('child_added',setMessage);
-  console.log('test');
   currentChatMessagesReference.limitToLast(12).on('child_added',setMessage);
-  console.log('test');
 }
 
 retieveChatIDToSaveMessage(event){
   //get chatID from user-chats
-  console.log('retrieving Chat id in order to save message');
   var currentUserChatsRef = this.database.ref('user-chats/' + this.currentUser.uid);
-  console.log('test');
   currentUserChatsRef.orderByChild("recipientID").equalTo(this.recipientID).once("value",(snapshot)=>{
-    console.log('querying in order to get chatid');
     if(snapshot.val()){
       snapshot.forEach((data)=>{
-        console.log('got the chatid: '+ data.val().chatID);
         this.saveMessage(data.val().chatID);
       });
     }else{
-      console.log('snap val is null');
       this.saveMessage(null);
     }
 
@@ -185,17 +171,13 @@ retieveChatIDToSaveMessage(event){
 // Saves a new message on the Firebase DB.
   saveMessage(chatid) {
   event.preventDefault();
-  console.log('saving message with chat id: '+ chatid);
   // Check that the user entered a message and is signed in.
   if (this.messageInput.value && this.checkSignedInWithMessage()) {
     var timestamp = 0 - Math.floor(Date.now() / 1000);
     var updates = {};
     //check if this person already exists as a chat recipient
-      console.log('chat id:' + chatid);
       if(!chatid){
         //create new chatID key and add to database
-        console.log('doesnt exist');
-
         this.newChatRef = firebase.database().ref('user-chats/'+this.currentUser.uid+'/'+this.newchatId);
         this.newChatRef2 = firebase.database().ref('user-chats/'+this.recipientID+'/'+this.newchatId);
 
@@ -212,13 +194,9 @@ retieveChatIDToSaveMessage(event){
           chatID: this.newchatId
         });
 
-        console.log('chatID: '+this.newchatId);
         let currentChatMessagesReference = this.database.ref('messages/'+this.newchatId);
-        console.log(currentChatMessagesReference);
-        this.pushMessages(currentChatMessagesReference);
+        this.pushMessages(currentChatMessagesReference,timestamp);
       }else{
-        console.log("exists!");
-
         //update timestamp for this current user
         var chatData = {
           recipientID: this.recipientID,
@@ -237,20 +215,21 @@ retieveChatIDToSaveMessage(event){
         updates['/user-chats/' + this.recipientID +'/' + chatid] = chatData2; //update timestamp on recipient convo with currentUser
 
         // Add a new message entry to the Firebase Database.
-        console.log('about to push messages and make timestamp updates with chatID: '+chatid);
         let currentChatMessagesReference = this.database.ref('messages/'+chatid);
-        this.pushMessages(currentChatMessagesReference);
+        this.pushMessages(currentChatMessagesReference,timestamp);
         return firebase.database().ref().update(updates);
       }
     }
   }
 
-pushMessages(chatRef){
+pushMessages(chatRef,timestamp){
   // Add a new message entry to the Firebase Database.
+  const time = ( timestamp * -1 );
   chatRef.push({
     name: this.currentUser.displayName,
     text: this.messageInput.value,
-    photoUrl: this.currentUser.photoURL || '/images/profile_placeholder.png'
+    photoUrl: this.currentUser.photoURL || '/images/profile_placeholder.png' ,
+    timestamp: time
   }).then(function() {
     // Clear message text field and SEND button state.
     this.resetMaterialTextfield(this.messageInput);
@@ -282,7 +261,6 @@ checkSignedInWithMessage() {
 saveMessagingDeviceToken() {
   firebase.messaging().getToken().then(function(currentToken) {
     if (currentToken) {
-      console.log('Got FCM device token:', currentToken);
       // Saving the Device Token to the datastore.
       firebase.database().ref('/fcmTokens').child(currentToken)
           .set(firebase.auth().currentUser.uid);
@@ -297,7 +275,6 @@ saveMessagingDeviceToken() {
 
 // Requests permissions to show notifications.
 requestNotificationsPermissions() {
-  console.log('Requesting notifications permission...');
   firebase.messaging().requestPermission().then(function() {
     // Notification permission granted.
     this.saveMessagingDeviceToken();
@@ -309,9 +286,6 @@ requestNotificationsPermissions() {
 // Resets the given MaterialTextField.
 resetMaterialTextfield(element) {
   element.value = '';
-  console.log(element);
-  console.log(element.parentNode);
-  console.log(element.parentNode.MaterialTextfield);
   //element.parentNode.MaterialTextfield.boundUpdateClassesHandler(); //todo: fix this bug - .MaterialTextfield undefined
 }
 

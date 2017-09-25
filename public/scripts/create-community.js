@@ -115,15 +115,31 @@ let currentY = null; //currentY stays constant throughout the entire screen
 
 //todo: add a modal view here, 'are you sure you want to sign out ? ""'
 signOut(event){
-  firebase.auth().signOut().then(function() {
-// Sign-out successful.
-}).catch(function(error) {
-// An error happened.
-});
-const loginElement = document.querySelector('#loginScreen');
-document.getElementById('header').classList.add('inactive');
-this.containerElement.classList.add('inactive');
-loginElement.classList.remove('inactive');
+  // Get a key for a new Post.
+    var newSignOutKey = firebase.database().ref().child('user-activity').push().key;
+
+    // Write the new post's data simultaneously in the posts list and the user's post list.
+    var updates = {};
+    let timestamp = Math.floor(Date.now() / 1000);
+    var signoutData = {
+      signoutTime : timestamp
+    }
+    var currentUser = firebase.auth().currentUser;
+    updates['/user-activity/' + currentUser.uid ] = signoutData;
+
+      firebase.auth().signOut().then(function() {
+    // Sign-out successful.
+    }).catch(function(error) {
+    // An error happened.
+    });
+
+
+  const loginElement = document.querySelector('#loginScreen');
+  document.getElementById('header').classList.add('inactive');
+  this.containerElement.classList.add('inactive');
+  loginElement.classList.remove('inactive');
+
+  return firebase.database().ref().update(updates);
 }
 
 openModalView(event){
