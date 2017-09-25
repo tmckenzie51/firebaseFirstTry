@@ -6,6 +6,7 @@ const messaging  = firebase.messaging();
 class messageScreen {
 
   constructor(containerElement){
+    this.containerElement = containerElement;
 
     // Shortcuts to DOM Elements.
     this.messageList = document.getElementById('messages');
@@ -51,7 +52,33 @@ class messageScreen {
     this.testing = this.testing.bind(this);
     document.addEventListener('message',this.testing);
 
+    //todo: organize this
+    this.navigate = this.navigate.bind(this);
+    const signOutButtons =  document.getElementsByClassName('signOutButton');
+    for(const button of signOutButtons){
+      button.addEventListener('click',this.navigate);
+    }
+    const inboxButtons =  document.getElementsByClassName('messagesButton');
+    for(const button of inboxButtons){
+      button.addEventListener('click',this.navigate);
+    }
+    const storyboardButtons = document.getElementsByClassName('storyboardButton');
+    for(const button of storyboardButtons){
+      button.addEventListener('click',this.navigate);
+    }
+    const matchButtons = document.getElementsByClassName('matchesButton');
+    for(const button of matchButtons){
+      button.addEventListener('click',this.navigate);
+    }
+
+
   }
+
+  navigate(event){
+    console.log('navigating');
+    this.containerElement.classList.add('inactive');
+  }
+
 
 
   testing(event){

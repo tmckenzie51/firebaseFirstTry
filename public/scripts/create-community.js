@@ -27,16 +27,6 @@ let currentY = null; //currentY stays constant throughout the entire screen
       submittedCustomCommunity.addEventListener('click',this.createCustomCommunity);
       this.displayConcentricCommunities = this.displayConcentricCommunities.bind(this);
 
-
-      //todo: organize this
-      this.signOut = this.signOut.bind(this);
-      const signOutButtons =  document.getElementsByClassName('signOutButton');
-      for(const button of signOutButtons){
-        button.addEventListener('click',this.signOut);
-      }
-
-
-
       //array declarations
       //this.user = firebase.auth().currentUser; //todo: maybe get rid of this
       this.selectedCommunities = [];
@@ -70,6 +60,57 @@ let currentY = null; //currentY stays constant throughout the entire screen
       const text = 'Welcome '+this.name+'!'; //todo: make this work or take it out
       header.textContent=text;
 
+      //todo: organize this
+      this.navigateToStoryboard = this.navigateToStoryboard.bind(this);
+      const storyboardButtons = document.getElementsByClassName('storyboardButton');
+      for(const button of storyboardButtons){
+        button.addEventListener('click',this.navigateToStoryboard);
+      }
+
+      //todo: organize this
+      this.navigateToMatchScreen = this.navigateToMatchScreen.bind(this);
+      const matchButtons = document.getElementsByClassName('matchesButton');
+      for(const button of matchButtons){
+        button.addEventListener('click',this.navigateToMatchScreen);
+      }
+
+      //todo: organize this
+      this.navigateToInbox = this.navigateToInbox.bind(this);
+      const inboxButtons =  document.getElementsByClassName('messagesButton');
+      for(const button of inboxButtons){
+        button.addEventListener('click',this.navigateToInbox);
+      }
+
+      //todo: organize this
+      this.signOut = this.signOut.bind(this);
+      const signOutButtons =  document.getElementsByClassName('signOutButton');
+      for(const button of signOutButtons){
+        button.addEventListener('click',this.signOut);
+      }
+
+      }
+
+      navigateToMatchScreen(event){
+        console.log('navigating to match screen');
+        this.containerElement.classList.add('inactive');
+        const matchScreenElement = document.getElementById('match-screen');
+        const myEvent = new CustomEvent('submitted');
+        matchScreenElement.classList.remove('inactive');
+        document.dispatchEvent(myEvent);
+      }
+
+      navigateToInbox(event){
+        console.log('redirecting to inbox');
+        this.containerElement.classList.add('inactive');
+        const inboxScreen = document.getElementById('inboxScreen');
+        const myEvent = new CustomEvent('displayInbox'); //add event details here if needed
+        inboxScreen.classList.remove('inactive');
+        document.dispatchEvent(myEvent);
+      }
+
+      navigateToStoryboard(event){
+        //todo: nav to storyboard
+        console.log('redirecting to storyboard');
       }
 
 //todo: add a modal view here, 'are you sure you want to sign out ? ""'
@@ -80,6 +121,7 @@ signOut(event){
 // An error happened.
 });
 const loginElement = document.querySelector('#loginScreen');
+document.getElementById('header').classList.add('inactive');
 this.containerElement.classList.add('inactive');
 loginElement.classList.remove('inactive');
 }
@@ -411,11 +453,6 @@ const user =  firebase.auth().currentUser;
 
 
 }
-
-
-
-
-
   hide(){
     console.log('showing match screen');
     this.containerElement.classList.add('inactive');

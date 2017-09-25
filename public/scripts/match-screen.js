@@ -16,34 +16,27 @@ class matchScreen {
     document.addEventListener('submitted',this.getMatches);
 
     //todo: organize this
-    this.navigateToInbox = this.navigateToInbox.bind(this);
+    this.navigate = this.navigate.bind(this);
+    const signOutButtons =  document.getElementsByClassName('signOutButton');
+    for(const button of signOutButtons){
+      button.addEventListener('click',this.navigate);
+    }
     const inboxButtons =  document.getElementsByClassName('messagesButton');
     for(const button of inboxButtons){
-      button.addEventListener('click',this.navigateToInbox);
+      button.addEventListener('click',this.navigate);
     }
-    this.navigateToStoryboard = this.navigateToStoryboard.bind(this);
     const storyboardButtons = document.getElementsByClassName('storyboardButton');
     for(const button of storyboardButtons){
-      button.addEventListener('click',this.navigateToStoryboard);
+      button.addEventListener('click',this.navigate);
     }
 
     }
 
-    navigateToStoryboard(event){
-      //todo: nav to storyboard
-      console.log('redirecting to storyboard');
-    }
-
-    navigateToInbox(event){
+    navigate(event){
+      console.log('navigating');
       this.containerElement.classList.add('inactive');
-      const inboxScreen = document.getElementById('inboxScreen');
-      const myEvent = new CustomEvent('displayInbox'); //add event details here if needed
-      document.dispatchEvent(myEvent);
-      inboxScreen.classList.remove('inactive');
-
-      //todo: nav to inboxScreen
-      console.log('redirecting to inbox');
     }
+
 
 
     getMatches(event){
@@ -72,6 +65,7 @@ class matchScreen {
 
               //use name and picture to make match card
               const cardContainer = document.getElementById('cardContainer');
+              cardContainer.innerHTML = '';
               const card = document.createElement('div');
               card.classList.add('card');
               cardContainer.appendChild(card);

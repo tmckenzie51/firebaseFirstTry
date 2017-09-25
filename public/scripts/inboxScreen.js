@@ -8,14 +8,30 @@ class inboxScreen {
     this.loadInboxConversation = this.loadInboxConversation.bind(this);
     document.addEventListener('displayInbox',this.displayInbox);
 
+    //todo: organize this
+    this.navigate = this.navigate.bind(this);
+    const signOutButtons =  document.getElementsByClassName('signOutButton');
+    for(const button of signOutButtons){
+      button.addEventListener('click',this.navigate);
     }
 
-    //MessagesRef =  messages
-    //for each child of messages
-      //prder in terms of timestamp
-      //create div : inside div put :
-        //<img id = "recipientPictureHeader" class= 'btn-floating' style="width:10%;height:10%;"</img>
-        //<a id="recipientNameHeader" href="#"></a>
+    const storyboardButtons = document.getElementsByClassName('storyboardButton');
+    for(const button of storyboardButtons){
+      button.addEventListener('click',this.navigate);
+    }
+    const matchButtons = document.getElementsByClassName('matchesButton');
+    for(const button of matchButtons){
+      button.addEventListener('click',this.navigate);
+    }
+
+
+    }
+
+    navigate(event){
+      console.log('navigating');
+      this.containerElement.classList.add('inactive');
+    }
+
 
     displayInbox(event){
       console.log('displaying inbox');
@@ -56,7 +72,7 @@ class inboxScreen {
           usersref.child(recipientID).orderByChild("email").once("value",(snapshot)=>{
             console.log('retrieving user info');
             const convoDiv = document.createElement('div');
-            convoDiv.id = chatID; //so that when user clicks this div we can query for this conversation
+            convoDiv.id = recipientID; //so that when user clicks this div we can query for this conversation
             const profilePic = snapshot.val().profile_picture;
             const userName  = snapshot.val().username;
 
@@ -69,11 +85,23 @@ class inboxScreen {
             convoDiv.appendChild(nameSpan);
             convoDiv.classList.add('z-depth-5');
             convoDiv.style.background = '#e3f2fd';
+            convoDiv.addEventListener('click',this.displayConversation);
             const container = document.getElementById('inbox');
             container.appendChild(convoDiv);
           });
+        }
 
-
+        displayConversation(event){
+          const convoDiv = event.currentTarget;
+          const recipientId = convoDiv.id
+          console.log('displaying specific conversation for chatID: ' + recipientId);
+          //display specific conversation corresponding to chatID by dispatch custom event to messageScreen for this conversation
+          const myEvent = new CustomEvent('message',{detail: recipientId});
+          document.dispatchEvent(myEvent);
+          const inboxScreenElement = document.getElementById('inboxScreen');
+          inboxScreenElement.classList.add('inactive');
+          const messageScreen = document.getElementById('messageScreen');
+          messageScreen.classList.remove('inactive');
         }
 
 }
