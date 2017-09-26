@@ -205,7 +205,7 @@ class matchScreen {
 
       const cardContent = document.createElement('div');
       const message = document.createElement('p');
-      message.textContent = 'number of matching communities:'+matchingInnerCommArr.length + 'matched communities:'+ matchingInnerCommArr + ' ;Currentuser num of communitis:'+NumOfInnerComms+"~~It's about feeling connected...because Community Matters~~";
+      message.textContent = 'You match based on '+matchingInnerCommArr.length + ' out of '+ NumOfInnerComms+ ' communities - '+  matchingInnerCommArr + '.';
       cardContent.appendChild(message);
       card.appendChild(cardContent);
     }
