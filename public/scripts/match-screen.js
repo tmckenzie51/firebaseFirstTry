@@ -40,7 +40,6 @@ class matchScreen {
     }
 
     navigateToCreateCommunityScreen(event){
-      console.log('navigating to community screen');
       this.containerElement.classList.add('inactive');
       const communityScreenElement = document.getElementById('create-community-screen');
       communityScreenElement.classList.remove('inactive');
@@ -51,7 +50,6 @@ class matchScreen {
     }
 
     getBigCommunity(event){
-      console.log('getting curr big comm');
       event.preventDefault;
       var currBigComm = null;
       var innerComm1 = null;
@@ -68,10 +66,6 @@ class matchScreen {
         innerComm1 = snap.val().innerComm1;
         innerComm2 = snap.val().innerComm2;
         innerComm3 = snap.val().innerComm3;
-        console.log(currBigComm);
-        console.log(innerComm1);
-        console.log(innerComm2);
-        console.log(innerComm3);
         currUserInnerCommArray.push(innerComm1);
         currUserInnerCommArray.push(innerComm2);
         currUserInnerCommArray.push(innerComm3);
@@ -84,15 +78,10 @@ class matchScreen {
       const cardContainer = document.getElementById('cardContainer');
       cardContainer.innerHTML ='';
         //get matches based on currentUser's bigCommunity
-        console.log('getting matches');
         var ref = firebase.database().ref("user-communities/communityOne");
-        console.log(currBigComm);
-        console.log(currUserInnerCommArray);
         var matchesArray = [];
         ref.orderByChild("bigCommunity").equalTo(currBigComm).on("child_added",(data)=>{
-          console.log('got matches');
           const matchID =  data.ref.getKey();
-          console.log(matchID);
           matchesArray.push(matchID);
           this.calcualteNumberOfMatchingCommunities(matchesArray,currBigComm,currUserInnerCommArray);
           });
@@ -100,7 +89,6 @@ class matchScreen {
 
 
     calcualteNumberOfMatchingCommunities(matchesArray,currBigComm,currUserInnerCommArray){
-      console.log('calculating the number of matching communities');
 
       //this.displayMatches(); //todo: this should be called at the end of this function
 
@@ -129,7 +117,6 @@ class matchScreen {
             }
           }
         }
-        console.log(matchingCommArr);
 
         //clean array
         var newMatchingCommArray = new Array();
@@ -140,8 +127,6 @@ class matchScreen {
         }
 
       }
-      console.log('match: '+match+';matching array: '+newMatchingCommArray);
-      console.log('BOOOOOM');
       this.displayMatches(match,newMatchingCommArray,currUserInnerCommArray.length);
 
     }
@@ -153,7 +138,6 @@ class matchScreen {
         const profileRef = firebase.database().ref("users/"+matchID);
 
         profileRef.orderByChild("email").on("value",(snapshot)=>{
-          console.log('getting profile info');
           const userProfileInfo = snapshot.val();
           var name = userProfileInfo.username;
           var pictureSource = userProfileInfo.profile_picture;
@@ -161,9 +145,6 @@ class matchScreen {
       if(matchID === firebase.auth().currentUser.uid){
         return;
       }else{
-      console.log('displaying matches');
-      console.log('name:'+name+" ; picSource:"+pictureSource+';matchID:'+matchID);
-
       //use name and picture to make match card
       const cardContainer = document.getElementById('cardContainer');
       const card = document.createElement('div');
@@ -198,7 +179,7 @@ class matchScreen {
         matchScreen.classList.add('inactive');
         messageScreen.classList.remove('inactive');
         //fire custom event in message screen
-        const myEvent = new CustomEvent('message',{detail: userID});
+        const myEvent = new CustomEvent('message',{detail: matchID});
         document.dispatchEvent(myEvent);
       });
       card.appendChild(cardPic);
@@ -213,7 +194,6 @@ class matchScreen {
     }
 
     messageMatch(event){
-      console.log('messaging match');
       const user = firebase.auth().currentUser;
 
     }

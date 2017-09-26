@@ -17,7 +17,7 @@ class storyboardScreen {
     for(const button of inboxButtons){
       button.addEventListener('click',this.navigate);
     }
-    
+
     const matchButtons = document.getElementsByClassName('matchesButton');
     for(const button of matchButtons){
       button.addEventListener('click',this.navigate);
@@ -26,7 +26,6 @@ class storyboardScreen {
   }
 
   navigate(event){
-    console.log('navigating to community screen');
     this.containerElement.classList.add('inactive');
   }
 }

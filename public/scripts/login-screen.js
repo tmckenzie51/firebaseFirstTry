@@ -36,7 +36,6 @@ fbLogin(event){
   var token = result.credential.accessToken;
   // The signed-in user info.
   var user = result.user;
-  console.log('made it');
   console.log(user);
   // ...
 }).catch((error) =>{
@@ -59,7 +58,6 @@ firebase.auth().onAuthStateChanged((user)=> {
 
     //First check if user already exists
     const userRef = firebase.database().ref('/users/'+user.uid);
-    console.log(user.uid);
     userRef.once("value",(data)=>{
       var exists = (data.val() !== null );
       console.log(exists);
@@ -77,7 +75,6 @@ firebase.auth().onAuthStateChanged((user)=> {
 }
 
 navigateToMatchScreen(){
-  console.log('nav to match screen');
   //else save user and send welcome message from Community
 
 
@@ -96,7 +93,6 @@ navigateToMatchScreen(){
 }
 
 navigateToCreatCommunityScreen(user){
-  console.log('nav to create comm');
   //save user and send welcome message from Community
       firebase.database().ref('users/' + user.uid).set({
         username: user.displayName,

@@ -92,7 +92,6 @@ let currentY = null; //currentY stays constant throughout the entire screen
       }
 
       navigateToMatchScreen(event){
-        console.log('navigating to match screen');
         this.containerElement.classList.add('inactive');
         const matchScreenElement = document.getElementById('match-screen');
         const myEvent = new CustomEvent('submitted');
@@ -101,7 +100,6 @@ let currentY = null; //currentY stays constant throughout the entire screen
       }
 
       navigateToInbox(event){
-        console.log('redirecting to inbox');
         this.containerElement.classList.add('inactive');
         const inboxScreen = document.getElementById('inboxScreen');
         const myEvent = new CustomEvent('displayInbox'); //add event details here if needed
@@ -110,7 +108,6 @@ let currentY = null; //currentY stays constant throughout the entire screen
       }
 
       navigateToStoryboard(event){
-        console.log('redirecting to storyboard');
         this.containerElement.classList.add('inactive');
         const storyboardElement = document.getElementById('storyboardScreen');
         storyboardElement.classList.remove('inactive');
@@ -174,7 +171,6 @@ createCustomCommunity(event){
   }
    //get value from input
    let input = document.getElementById("Custom-Community").value;
-   console.log('custom community: '+input);
    this.displayConcentricCommunities(input);
 }
 
@@ -192,7 +188,6 @@ createCustomCommunity(event){
 
       //creating and styling the concentratic communities
       const id = '#comm'+this.selectedCommunities.length;
-      console.log('innercomm id : '+ id);
       const innercomm = document.querySelector(id);
       innercomm.textContent = firstCommunity.trim();
       innercomm.style.top ='calc(38vh + ' +currentY+'px)';
@@ -329,7 +324,6 @@ createCustomCommunity(event){
     const badComm = document.getElementById(badCommName);
     badComm.classList.add('inactive');
     badComm.id = 'comm'+this.selectedCommunities.length; //todo: fix bug where there may now be 2 innercoms with the same name
-    console.log(badComm.id);
     scaleFactor++; //todo: fix bug where there are more than one innercoms with the same scaleFactor
     //remove badCommunity from selectedCommunities
     var search_term = badCommName;
@@ -341,7 +335,6 @@ createCustomCommunity(event){
     }
 
 
-    console.log(this.selectedCommunities);
   }
 
   //creates done button
@@ -381,7 +374,6 @@ createCustomCommunity(event){
     for(const selectedComm of this.selectedCommunities){
       const concentricComm = document.getElementById(selectedComm);
       concentricComm.id = 'comm'+counter;
-      console.log('renamed id'+concentricComm.id);
       counter++;
     }
 
@@ -401,7 +393,7 @@ createCustomCommunity(event){
     const startOverButton = document.getElementById('startOverButton');
     startOverButton.remove();
     const doneButton = document.getElementById('doneButton');
-    doneButton.remove();
+    //doneButton.remove();
 
     //changes user instructions in header
     const header = document.querySelector('#create-community-screen h5');
@@ -475,7 +467,6 @@ const user =  firebase.auth().currentUser;
 
 }
   hide(){
-    console.log('showing match screen');
 
 
     const chatid = firebase.database().ref().child('chat-messages').push().key;

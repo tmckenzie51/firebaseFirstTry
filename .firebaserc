@@ -1,5 +1,6 @@
 {
   "projects": {
-    "gitfirebasefirsttry": "fir-firsttry-2c973"
+    "gitfirebasefirsttry": "fir-firsttry-2c973",
+    "default": "fir-firsttry-2c973"
   }
 }
