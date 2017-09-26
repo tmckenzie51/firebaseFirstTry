@@ -379,3 +379,7 @@ main, #messages-card {
 #inbox-filler {
   flex-grow: 1;
 }
+
+#comingSoon{
+  width: 60vw;
+}

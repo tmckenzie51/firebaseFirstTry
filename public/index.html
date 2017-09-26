@@ -12,6 +12,7 @@
 
       <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
 
+      <script src = "scripts/storyboardScreen.js" defer></script>
       <script src = "scripts/inboxScreen.js" defer></script>
       <script src = "scripts/message-screen.js" defer></script>
       <script src = "scripts/match-screen.js" defer></script>
@@ -186,16 +187,18 @@
 
          <ul class="right hide-on-med-and-down">
             <!--toDo: change navbar links-->
-            <li><a class= "matchesButton" href="#match-screen">Matches <span class="new badge">4</span></a></li>
-           <li><a class= "messagesButton" href="#">Messages <span class="new badge messagesNotifs">4</span></a></li>
-           <li><a class= "storyboardButton" href="#">Storyboard <span class="new badge storyboardNotifs">4</span></a></li>
+            <li><a class= "matchesButton" href="#match-screen">Matches</a></li>
+           <li><a class= "messagesButton" href="#">Messages<span class="new badge messageNotifs"></span></a></li>
+           <li><a class= "storyboardButton" href="#">Storyboard</a></li>
+           <li><a class= "createCommunityButton" href="#loginScreen">Create New Comunity <i class="material-icons">add_circle_outline</i></a></li>
            <li><a class= "signOutButton" href="#loginScreen">Sign Out</a></li>
          </ul>
 
          <ul id="slide-out" class="side-nav">
-           <li><a class= "matchesButton" href="#match-screen">Matches <span class="new badge matchNotifs">4</span></a></li>
-           <li><a class= "messagesButton" href="#">Messages <span class="new badge messagesNotifs">4</span></a></li>
-           <li><a class= "storyboardButton" href="#">Storyboard <span class="new badge storyboardhNotifs">4</span></a></li>
+           <li><a class= "matchesButton" href="#match-screen">Matches</a></li>
+           <li><a class= "messagesButton" href="#">Messages <span class="new badge messageNotifs"></span></a></li>
+           <li><a class= "storyboardButton" href="#">Storyboard</a></li>
+           <li><a class= "createCommunityButton" href="#loginScreen">Create New Comunity <i class="material-icons">add_circle_outline</i></a></li>
            <li><a class= "signOutButton" href="#loginScreen">Sign Out</a></li>
          </ul>
          <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a> <!--toDo: change this href link-->
@@ -268,9 +271,9 @@
 
       <section class = 'inactive' id = "messageScreen">
 
-          <div class="nav-wrapper container">
-            <img id = "recipientPictureHeader" class= 'btn-floating' style="width:10%;height:10%;"</img>
-            <a id="recipientNameHeader" href="#"></a>
+          <div class="nav-wrapper container right-align">
+            <span><img id = "recipientPictureHeader" class= 'btn-floating' style="width:10%;height:10%;"</img></span>
+            <a  id="recipientNameHeader" href="#"></a>
           </div>
 
         <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -316,6 +319,13 @@
         <div id = "inbox">
           <span id = "inbox-filler"></span>
         </div>
+      </section>
+
+      <section id = "storyboardScreen" class = "inactive">
+        <h4> StoryBoard</h4>
+        <h6>Make posts and share with others in your community</h6>
+        <img id="comingSoon" src = "https://www.wineforyou.dk/wp-content/uploads/2016/01/more-coming-soon-png-i13-1240x698.png" >
+
       </section>
 
 

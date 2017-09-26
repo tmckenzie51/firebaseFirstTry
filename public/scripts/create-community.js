@@ -67,6 +67,7 @@ let currentY = null; //currentY stays constant throughout the entire screen
         button.addEventListener('click',this.navigateToStoryboard);
       }
 
+
       //todo: organize this
       this.navigateToMatchScreen = this.navigateToMatchScreen.bind(this);
       const matchButtons = document.getElementsByClassName('matchesButton');
@@ -109,8 +110,10 @@ let currentY = null; //currentY stays constant throughout the entire screen
       }
 
       navigateToStoryboard(event){
-        //todo: nav to storyboard
         console.log('redirecting to storyboard');
+        this.containerElement.classList.add('inactive');
+        const storyboardElement = document.getElementById('storyboardScreen');
+        storyboardElement.classList.remove('inactive');
       }
 
 //todo: add a modal view here, 'are you sure you want to sign out ? ""'
@@ -166,7 +169,9 @@ openModalView(event){
 }
 
 createCustomCommunity(event){
-
+  if(scaleFactor === 3){
+    this.createDoneButton();
+  }
    //get value from input
    let input = document.getElementById("Custom-Community").value;
    console.log('custom community: '+input);
@@ -425,20 +430,20 @@ saveCommunity(event){
 if(this.selectedCommunities.length === 4){
   var communityData = {
     bigCommunity: this.selectedCommunities[0],
-    innerComm1: this.selectedCommunities[1],
-    innerComm2: this.selectedCommunities[2],
-    innerComm3: this.selectedCommunities[3]
+    innerComm1: this.selectedCommunities[1].toLowerCase(),
+    innerComm2: this.selectedCommunities[2].toLowerCase(),
+    innerComm3: this.selectedCommunities[3].toLowerCase()
   }
 }else if(this.selectedCommunities.length === 3){
   var communityData = {
   bigCommunity: this.selectedCommunities[0],
-  innerComm1: this.selectedCommunities[1],
-  innerComm2: this.selectedCommunities[2]
+  innerComm1: this.selectedCommunities[1].toLowerCase(),
+  innerComm2: this.selectedCommunities[2].toLowerCase()
 }
 }else if(this.selectedCommunities.length === 2){
   var communityData = {
   bigCommunity: this.selectedCommunities[0],
-  innerComm1: this.selectedCommunities[1]
+  innerComm1: this.selectedCommunities[1].toLowerCase()
 }
 }
 
@@ -471,6 +476,26 @@ const user =  firebase.auth().currentUser;
 }
   hide(){
     console.log('showing match screen');
+
+
+    const chatid = firebase.database().ref().child('chat-messages').push().key;
+    var timestamp = 0 - Math.floor(Date.now() / 1000);
+    let currentChatMessagesReference = firebase.database().ref('messages/'+chatid);
+    const time = ( timestamp * -1 );
+    currentChatMessagesReference.push({
+      name: 'Community',
+      text: "Welcome to Your New Community! We are so happy that you've joined us. We hope that you are able to find you perfect community and we look forward to all the good times we have ahead. Sincerely, Your Community Founders and Builders",
+      photoUrl: 'http://www.webster.edu/images/globalmarketingcommunications/diversity-tree-2014.png' ,
+      timestamp: time
+    });
+
+    this.newChatRef = firebase.database().ref('user-chats/'+firebase.auth().currentUser.uid+'/'+chatid);
+    this.newChatRef.set({
+      recipientID: '12345',
+      timestamp: timestamp,
+      chatID: chatid
+    });
+
     this.containerElement.classList.add('inactive');
     //dispatch custom event to matchScreen in order to query the database
     event.preventDefault();

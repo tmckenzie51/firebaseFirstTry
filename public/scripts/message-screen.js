@@ -71,6 +71,10 @@ class messageScreen {
       button.addEventListener('click',this.navigate);
     }
 
+    const createCommunityButtons = document.getElementsByClassName('createCommunityButton');
+    for(const button of createCommunityButtons){
+      button.addEventListener('click',this.navigate);
+    }
 
   }
 
@@ -81,6 +85,7 @@ class messageScreen {
 
 
   testing(event){
+    this.messageList.innerHTML ='';
     this.recipientID = event.detail;
     this.database = firebase.database();
     this.currentUser = firebase.auth().currentUser;
@@ -98,8 +103,6 @@ class messageScreen {
       recipientPictureHeader.src = profilePic;
       recipientNameHeader.textContent = name;
     });
-
-
     this.checkSetup();
     this.getCurrentChatId()
     this.saveMessagingDeviceToken();
@@ -133,16 +136,7 @@ class messageScreen {
 
   //todo
   // Make sure we remove all previous listeners.
-  //currentChatMessagesReference.off(); //todo: check if we really wanna turn this off
-
-
-    //while in the match screen 'child_added' counts as every single child that has ever been added.
-    //maybe fix this by writing /user-activity/currentUser.uid/signoutTime = timestamp
-      // if (messages/chatID).on(child_added) --> data.val().timestamp
-
-      //only execute rest of the function under condition that this message screen is not active
-        //use document.active element
-
+  currentChatMessagesReference.off(); //todo: check if we really wanna turn this off
 
   // Loads the last 12 messages and listen for new ones.
   var setMessage = function(data){

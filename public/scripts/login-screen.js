@@ -12,7 +12,8 @@ class loginScreen {
 
     //functions
     this.fbLogin = this.fbLogin.bind(this);
-
+    this.navigateToMatchScreen = this.navigateToMatchScreen.bind(this);
+    this.navigateToCreatCommunityScreen = this.navigateToCreatCommunityScreen.bind(this);
     //events
     fbButton.addEventListener('click',this.fbLogin);
 
@@ -30,7 +31,7 @@ class loginScreen {
 fbLogin(event){
 
   //firebase code:
-  firebase.auth().signInWithPopup(provider).then(function(result) {
+  firebase.auth().signInWithPopup(provider).then((result) =>{
   // This gives you a Facebook Access Token. You can use it to access the Facebook API.
   var token = result.credential.accessToken;
   // The signed-in user info.
@@ -38,7 +39,7 @@ fbLogin(event){
   console.log('made it');
   console.log(user);
   // ...
-}).catch(function(error) {
+}).catch((error) =>{
   // Handle Errors here.
   var errorCode = error.code;
   var errorMessage = error.message;
@@ -49,38 +50,76 @@ fbLogin(event){
   // ...
 });
 
-firebase.auth().onAuthStateChanged(function(user) {
+firebase.auth().onAuthStateChanged((user)=> {
   if (user) {
     console.log('user signed in');
 
-    //hides entire login/signup screen
-    const communityElement = document.querySelector('#create-community-screen');
-    const navBar =  document.getElementById('header');
-    navBar.classList.remove('inactive');
-    communityElement.classList.remove('inactive');
-    const loginElement = document.querySelector('#loginScreen');
-    loginElement.classList.add('inactive');
-
-    //save user information upon login
-    console.log('got user to be entered into database');
     event.preventDefault();
     const user = firebase.auth().currentUser;
-        firebase.database().ref('users/' + user.uid).set({
-          username: user.displayName,
-          email: user.email,
-          profile_picture : user.photoURL,
-        });
 
-    const myEvent = new CustomEvent('signedIn');
-    document.dispatchEvent(myEvent);
+    //First check if user already exists
+    const userRef = firebase.database().ref('/users/'+user.uid);
+    console.log(user.uid);
+    userRef.once("value",(data)=>{
+      var exists = (data.val() !== null );
+      console.log(exists);
+      if(exists){
+        this.navigateToMatchScreen();
+      }else{
+        this.navigateToCreatCommunityScreen(user);
+      }
+    });
   } else {
     // No user is signed in.
     console.log('no user signed in');
   }
 });
+}
+
+navigateToMatchScreen(){
+  console.log('nav to match screen');
+  //else save user and send welcome message from Community
 
 
+  const matchScreenElement = document.getElementById('match-screen');
+  matchScreenElement.classList.remove('inactive');
+  const navBar =  document.getElementById('header');
+  navBar.classList.remove('inactive');
+  const loginElement = document.querySelector('#loginScreen');
+  loginElement.classList.add('inactive');
 
+  const myEvent = new CustomEvent('signedIn');
+  document.dispatchEvent(myEvent); //dispatces to app.js in order to listen for new messages
+  const myEvent2 = new CustomEvent('submitted');
+  document.dispatchEvent(myEvent2); //dispatches to match screen
+
+}
+
+navigateToCreatCommunityScreen(user){
+  console.log('nav to create comm');
+  //save user and send welcome message from Community
+      firebase.database().ref('users/' + user.uid).set({
+        username: user.displayName,
+        email: user.email,
+        profile_picture : user.photoURL,
+      });
+
+      //register community as a user //todo: will actually re-register for every new user
+      firebase.database().ref('users/12345').set({
+        username: 'Community',
+        email: 'welcome2community@gmail.com',
+        profile_picture : "http://www.webster.edu/images/globalmarketingcommunications/diversity-tree-2014.png",
+      });
+
+      const communityElement = document.querySelector('#create-community-screen');
+      communityElement.classList.remove('inactive');
+      const navBar =  document.getElementById('header');
+      navBar.classList.remove('inactive');
+      const loginElement = document.querySelector('#loginScreen');
+      loginElement.classList.add('inactive');
+
+      const myEvent = new CustomEvent('signedIn');
+      document.dispatchEvent(myEvent); //dispatces to app.js in order to listen for new messages
 }
 
 

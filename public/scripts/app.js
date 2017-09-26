@@ -10,12 +10,16 @@ class App {
     this.messageScreen = new messageScreen(messageScreenElement);
     const inboxScreenElement = document.getElementById('inboxScreen');
     this.inboxScreen = new inboxScreen(inboxScreenElement);
+    const storyboardElement = document.getElementById('storyboardScreen');
+    this.storyboardScreen = new storyboardScreen(storyboardElement);
 
     this.showNotification = this.showNotification.bind(this);
     this.findNewMessages = this.findNewMessages.bind(this);
     this.getChildIDs = this.getChildIDs.bind(this);
+    this.addNotificationBadge = this.addNotificationBadge.bind(this);
+    this.addBadge = this.addBadge.bind(this);
+    this.notifCount;
     document.addEventListener('signedIn', this.showNotification);
-
   }
 
 
@@ -46,6 +50,7 @@ getChildIDs(signoutTime){
 }
 
 findNewMessages(signoutTime,childIDs){
+  var notifCount = 0;
   console.log(childIDs);
   //get individual chatIDs
 
@@ -58,13 +63,50 @@ findNewMessages(signoutTime,childIDs){
       chatMessagesRef.on("child_added",(snap)=>{
           console.log('got message children');
           const messages = snap.val();
-          const messageTime = messages.timestamp;
-          console.log(messageTime);
-          if((messageTime - signoutTime) >= 0){
-            console.log('new message');
+          console.log(messages.name);
+          console.log(firebase.auth().currentUser.displayName);
+          if(messages.name !== firebase.auth().currentUser.displayName){
+            const messageTime = messages.timestamp;
+            console.log(messageTime);
+            if((messageTime - signoutTime) >= 0){
+              console.log('new message');
+              notifCount++
+              Materialize.toast('New Message', 4000);
+              this.addBadge(notifCount);
+            }
           }
-        });
+          });
+
     }
 }
+
+//todo: for giving notifs to individual convoDivs in inboxScreen
+addNotificationBadge(chatid){
+  console.log(chatid);
+  //get the recipientID : ref(user-chats/currentUser.uid/chatId).orderByChild(recipientID) --> data.val().recipientID
+  //document.getElementById(recipientID) --> retrieve appropraite convoDiv
+  // create badge element: <span class="new badge">4</span>
+  //convoDiv.appendChild
+  const currentUser = firebase.auth().currentUser;
+  const userChatsRef = firebase.database().ref('/user-chats/'+currentUser.uid+'/'+chatid);
+  userChatsRef.orderByChild("recipientID").once("value",(data)=>{
+    const recipientID = data.val().recipientID;
+    console.log(recipientID);
+    this.addBadge(recipientID);
+  });
+}
+
+addBadge(notifCount){
+  console.log(notifCount);
+  const badges = document.getElementsByClassName('messageNotifs');
+  for(const badge of badges){
+    badge.textContent = notifCount;
+  }
+
+
+
+//  convoDiv.appendChild(badge);
+}
+
 
 }

@@ -24,6 +24,11 @@ class inboxScreen {
       button.addEventListener('click',this.navigate);
     }
 
+    const createCommunityButtons = document.getElementsByClassName('createCommunityButton');
+    for(const button of createCommunityButtons){
+      button.addEventListener('click',this.navigate);
+    }
+
 
   }
 
@@ -63,6 +68,8 @@ class inboxScreen {
 
             const image = document.createElement('img');
             image.style.borderRadius = '100%';
+            image.style.width = '14vw';
+            image.style.height = '13vh'
             image.src = profilePic;
             convoDiv.appendChild(image);
             const nameSpan = document.createElement('span');
@@ -71,6 +78,9 @@ class inboxScreen {
             convoDiv.classList.add('z-depth-5');
             convoDiv.style.background = '#e3f2fd';
             convoDiv.addEventListener('click',this.displayConversation);
+
+
+
             const container = document.getElementById('inbox');
             container.appendChild(convoDiv);
           });
